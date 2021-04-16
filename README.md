@@ -1,2 +1,3 @@
-# website
-My portfolio website.
+# My portfolio website
+
+Plain. Static. Good.

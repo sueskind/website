@@ -14,7 +14,7 @@ const margin = -30;
 var noiseScale;
 const colorRange = 60;
 var colorOffset;
-const framesToReset = 300;
+const framesToReset = 30 * 60;
 const slideFore = 10;
 const slideMid = 7;
 const slideBack = -5;
@@ -115,7 +115,7 @@ function draw() {
     textSize(smallFontSize);
     textStyle(NORMAL);
     fill(90);
-    text("photography | graphic design | computer science", width / 2, height / 2 + 20);
+    text("computer science | photography | graphic design", width / 2, height / 2 + 20);
 }
 
 function windowResized() {

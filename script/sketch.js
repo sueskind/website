@@ -101,17 +101,11 @@ function draw() {
     }
     pop();
 
-    push();
-    translate(map(transX, 0, width, -slideFore, slideFore),
-        map(transY, 0, height, -slideFore, slideFore));
     textSize(32);
     fill(100);
     textStyle(BOLD);
     text("JONAS SÜSKIND", width / 2, height / 2);
-    pop();
 
-    translate(map(transX, 0, width, -slideMid, slideMid),
-        map(transY, 0, height, -slideMid, slideMid));
     textSize(smallFontSize);
     textStyle(NORMAL);
     fill(90);

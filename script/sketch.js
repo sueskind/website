@@ -14,10 +14,8 @@ const margin = -30;
 var noiseScale;
 const colorRange = 60;
 var colorOffset;
-const framesToReset = 30 * 60;
-const slideFore = 10;
-const slideMid = 7;
-const slideBack = -5;
+const framesToReset = 60 * 60 * 2; // 2 minutes
+const slideBack = -30;
 const fade = 100;
 const thickness = 0.5;
 const probabilityToConnect = 0.5;
@@ -30,7 +28,7 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
     colorMode(HSB, 100, 100, 100, 100);
     background(backColor);
-    frameRate(30);
+    frameRate(60);
     textAlign(CENTER);
     ellipseMode(CENTER);
     particleCount = width * height / 1000000 * particlesPerMP;
@@ -109,7 +107,7 @@ function draw() {
     textSize(smallFontSize);
     textStyle(NORMAL);
     fill(90);
-    text("computer science | photography | graphic design", width / 2, height / 2 + 20);
+    text("computer science | photography | graphic design", width / 2, height / 2 + 30);
 }
 
 function windowResized() {

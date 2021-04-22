@@ -39,9 +39,8 @@ let lineSpace = 40;
 const textColor = 100;
 const title = "JONAS SÜSKIND";
 const subtitles = [
-    "programming", "coding", "computer science", "I use arch btw ...",
-    "generative design", "generative art",
-    "photography", "graphic design"
+    "programming", "coding", "computer science", "generative design", "generative art", "photography", "graphic design",
+    "I use arch btw ..."
 ]
 let currentSubtitle;
 let subtitleProgress = 0;
@@ -73,7 +72,7 @@ function setup() {
         subtitleSize = 20;
         lineSpace = 26
     }
-    currentSubtitle = int(random(0, subtitles.length));
+    currentSubtitle = int(random(0, subtitles.length - 1)); // -1 so easter egg can't be first
 
     let primaryColor = hsvToHexString(colorOffset / 100, 0.9, 1);
     document.getElementById("j").style.color = primaryColor;
@@ -178,8 +177,9 @@ function writeText() {
             waitingProgress = 0;
             subtitleState = 0;
 
-            let newSubtitle = int(random(0, subtitles))
-            newSubtitle += newSubtitle === currentSubtitle; // avoid the same one
+            // draw new subtitle from list, but avoid the current one
+            let newSubtitle = int(random(0, subtitles.length - 1))
+            newSubtitle += newSubtitle >= currentSubtitle;
             currentSubtitle = newSubtitle;
         }
 

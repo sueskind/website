@@ -1,43 +1,58 @@
 function preload() {
+    // not in use ...
 }
 
-var particles = [];
-const particlesPerMP = 600;
-const backColor = 9;
-var particleCount;
+// canvas constants
+const margin = -30; // space around canvas borders
+const backgroundColor = 9; // greyscale
+const slideBack = -30; // parallax effect strength
+const fade = 100; // opacity of newly drawn background (the lower, the more fading)
+
+// variables for particles
+const particlesPerMP = 600; // particles per megapixel screen resolution
 const particleSize = 4;
-const range = 65;
-const maxVel = 0.08;
-const maxAcc = 0.05;
-const change = 0.04;
-const margin = -30;
-var noiseScale;
-const colorRange = 60;
-var colorOffset;
-const framesToReset = 60 * 60 * 2; // 2 minutes
-const slideBack = -30;
-const fade = 100;
-const thickness = 0.5;
+const maxVel = 0.08; // cap for velocity
+const maxAcc = 0.05; // cap for acceleration
+const change = 0.04; // change of acceleration
+let particles = []; //array for holding references
+let particleCount;
+
+// variables for interaction of particles
+const range = 65; // distance to have a chance to connect
+const framesToReset = 60 * 60 * 2; // 2 minutes, after that particles choose new neighbours
 const probabilityToConnect = 0.5;
-var mobile;
-var currentAccX = 0;
-var currentAccY = 0;
-var smallFontSize = 20;
+
+// colored lines
+const colorRange = 60; // range on color wheel (0-100)
+let colorOffset; // offset on color wheel
+let noiseScale; // noise scale for color randomness
+const thickness = 0.5; // weight of the lines
+
+// mobile tilting
+let mobile;
+let currentAccX = 0;
+let currentAccY = 0;
+let transX = 0.0;
+let transY = 0.0;
+
+// text
+let bigTextSize = 32;
+let smallTextSize = 20;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
     colorMode(HSB, 100, 100, 100, 100);
-    background(backColor);
+    background(backgroundColor);
     frameRate(60);
     textAlign(CENTER);
     ellipseMode(CENTER);
     particleCount = width * height / 1000000 * particlesPerMP;
-    noiseScale = width * height / 25000000; //Bei 1000x500 => 0.02
+    noiseScale = width * height / 25000000; // At 1000x500 => 0.02
     colorOffset = random(0, 100);
 
     mobile = mobilecheck();
     if (mobile) {
-        smallFontSize = 16;
+        smallTextSize = 16;
     }
 
     let primaryColor = hsvToHexString(colorOffset / 100, 0.9, 1);
@@ -63,16 +78,13 @@ function restructure() {
         let nearPoints = [];
         qt.query(p.bubble, nearPoints);
         for (let near of nearPoints) {
-            if (p != near && random() < probabilityToConnect &&
+            if (p !== near && random() < probabilityToConnect &&
                 !near.neighbors.includes(p)) {
                 p.neighbors.push(near);
             }
         }
     }
 }
-
-var transX = 0.0;
-var transY = 0.0;
 
 function draw() {
     if (mobile) {
@@ -82,10 +94,10 @@ function draw() {
         transX = mouseX;
         transY = mouseY;
     }
-    if (!mobile && frameCount % framesToReset == 0) {
+    if (!mobile && frameCount % framesToReset === 0) {
         restructure();
     }
-    fill(backColor, fade);
+    fill(backgroundColor, fade);
     rect(-10, -10, width + 10, height + 10);
 
     push();
@@ -99,12 +111,12 @@ function draw() {
     }
     pop();
 
-    textSize(32);
+    textSize(bigTextSize);
     fill(100);
     textStyle(BOLD);
     text("JONAS SÜSKIND", width / 2, height / 2);
 
-    textSize(smallFontSize);
+    textSize(smallTextSize);
     textStyle(NORMAL);
     fill(90);
     text("computer science | photography | graphic design", width / 2, height / 2 + 30);
@@ -132,10 +144,8 @@ class Particle {
     show() {
         for (let n of this.neighbors) {
             strokeWeight(thickness);
-            let noi = noise(this.pos.x * noiseScale,
-                this.pos.y * noiseScale);
-            stroke((noi * colorRange - colorRange / 2 + colorOffset) % 100,
-                noi * 20 + 80, noi * 30 + 70);
+            let noi = noise(this.pos.x * noiseScale, this.pos.y * noiseScale);
+            stroke((noi * colorRange - colorRange / 2 + colorOffset) % 100, noi * 20 + 80, noi * 30 + 70);
             line(this.pos.x, this.pos.y, n.pos.x, n.pos.y);
         }
         fill(100);

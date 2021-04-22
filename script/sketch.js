@@ -36,23 +36,30 @@ let transX = 0.0;
 let transY = 0.0;
 
 // text
-let bigTextSize = 32;
-let smallTextSize = 20;
+let titleSize = 40;
+let subtitleSize = 26;
+const lineSpace = 40;
+const subtitles = [
+    "programming", "coding", "computer science", "I use arch btw ...",
+    "generative design", "generative art",
+    "photography", "graphic design"
+]
+let currentSubtitle;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
+    frameRate(60);
+
     colorMode(HSB, 100, 100, 100, 100);
     background(backgroundColor);
-    frameRate(60);
-    textAlign(CENTER);
-    ellipseMode(CENTER);
-    particleCount = width * height / 1000000 * particlesPerMP;
     noiseScale = width * height / 25000000; // At 1000x500 => 0.02
     colorOffset = random(0, 100);
 
+    textAlign(CENTER);
     mobile = mobilecheck();
     if (mobile) {
-        smallTextSize = 16;
+        titleSize = 32;
+        subtitleSize = 16;
     }
 
     let primaryColor = hsvToHexString(colorOffset / 100, 0.9, 1);
@@ -62,6 +69,8 @@ function setup() {
     document.getElementById("a").style.color = primaryColor;
     document.getElementById("s").style.color = primaryColor;
 
+    ellipseMode(CENTER);
+    particleCount = width * height / 1000000 * particlesPerMP;
     for (let i = 0; i < particleCount; i++) {
         particles.push(new Particle());
     }
@@ -111,20 +120,20 @@ function draw() {
     }
     pop();
 
-    textSize(bigTextSize);
+    textSize(titleSize);
     fill(100);
     textStyle(BOLD);
     text("JONAS SÜSKIND", width / 2, height / 2);
 
-    textSize(smallTextSize);
+    textSize(subtitleSize);
     textStyle(NORMAL);
     fill(90);
-    text("computer science | photography | graphic design", width / 2, height / 2 + 30);
+    text("computer science | photography | graphic design", width / 2, height / 2 + lineSpace);
 }
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-    background(10);
+    background(backgroundColor);
 }
 
 

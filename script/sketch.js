@@ -39,12 +39,17 @@ let transY = 0.0;
 let titleSize = 40;
 let subtitleSize = 26;
 const lineSpace = 40;
+const textColor = 100;
+const title = "JONAS SÜSKIND";
 const subtitles = [
     "programming", "coding", "computer science", "I use arch btw ...",
     "generative design", "generative art",
     "photography", "graphic design"
 ]
 let currentSubtitle;
+let subtitleProgress = 0;
+let waitingProgress = 0;
+let subtitleState = 0;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -61,6 +66,7 @@ function setup() {
         titleSize = 32;
         subtitleSize = 16;
     }
+    currentSubtitle = random(subtitles);
 
     let primaryColor = hsvToHexString(colorOffset / 100, 0.9, 1);
     document.getElementById("j").style.color = primaryColor;
@@ -110,8 +116,7 @@ function draw() {
     rect(-10, -10, width + 10, height + 10);
 
     push();
-    translate(map(transX, 0, width, -slideBack, slideBack),
-        map(transY, 0, height, -slideBack, slideBack));
+    translate(map(transX, 0, width, -slideBack, slideBack), map(transY, 0, height, -slideBack, slideBack));
     for (let p of particles) {
         if (!mobile) {
             p.move();
@@ -120,15 +125,58 @@ function draw() {
     }
     pop();
 
+    fill(textColor);
+
     textSize(titleSize);
-    fill(100);
     textStyle(BOLD);
-    text("JONAS SÜSKIND", width / 2, height / 2);
+    text(title, width / 2, height / 2);
+
+    writeSubtitle();
+}
+
+function writeSubtitle() {
+
+    if (subtitleState === 0) { // typing
+
+        subtitleProgress += frameCount % 5 === 0;
+
+        if (subtitleProgress > currentSubtitle.length) {
+            subtitleState = 1;
+        }
+
+    } else if (subtitleState === 1) { // waiting in full length
+
+        waitingProgress += frameCount % 5 === 0;
+
+        if (waitingProgress > 10) {
+            waitingProgress = 0;
+            subtitleState = 2;
+        }
+
+    } else if (subtitleState === 2) { // removing
+
+        subtitleProgress -= frameCount % 2 === 0;
+
+        if (subtitleProgress < 1) {
+            subtitleState = 3;
+        }
+
+    } else if (subtitleState === 3) { // waiting in zero length
+
+        waitingProgress += frameCount % 5 === 0;
+
+        if (waitingProgress > 10) {
+            waitingProgress = 0;
+            subtitleState = 0;
+            currentSubtitle = random(subtitles);
+        }
+
+    }
 
     textSize(subtitleSize);
     textStyle(NORMAL);
-    fill(90);
-    text("computer science | photography | graphic design", width / 2, height / 2 + lineSpace);
+
+    text(currentSubtitle.substring(0, subtitleProgress), width / 2, height / 2 + lineSpace);
 }
 
 function windowResized() {

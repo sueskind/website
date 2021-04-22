@@ -1,6 +1,3 @@
-function preload() {
-    // not in use ...
-}
 
 // canvas constants
 const margin = -30; // space around canvas borders
@@ -36,9 +33,9 @@ let transX = 0.0;
 let transY = 0.0;
 
 // text
-let titleSize = 40;
+let titleSize = 56;
 let subtitleSize = 26;
-const lineSpace = 40;
+let lineSpace = 40;
 const textColor = 100;
 const title = "JONAS SÜSKIND";
 const subtitles = [
@@ -50,6 +47,15 @@ let currentSubtitle;
 let subtitleProgress = 0;
 let waitingProgress = 0;
 let subtitleState = 0;
+
+let titleFont;
+let subtitleFont;
+
+function preload() {
+    titleFont = loadFont("fonts/OpenSans-Regular.ttf");
+    subtitleFont = loadFont("fonts/SourceCodePro-Bold.ttf")
+}
+
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -64,7 +70,8 @@ function setup() {
     mobile = mobilecheck();
     if (mobile) {
         titleSize = 32;
-        subtitleSize = 16;
+        subtitleSize = 20;
+        lineSpace = 26
     }
     currentSubtitle = random(subtitles);
 
@@ -125,17 +132,19 @@ function draw() {
     }
     pop();
 
-    fill(textColor);
-
-    textSize(titleSize);
-    textStyle(BOLD);
-    text(title, width / 2, height / 2);
-
-    writeSubtitle();
+    writeText();
 }
 
-function writeSubtitle() {
+function writeText() {
 
+    fill(textColor);
+
+    // Title
+    textFont(titleFont);
+    textSize(titleSize);
+    text(title, width / 2, height / 2);
+
+    // Subtitle
     if (subtitleState === 0) { // typing
 
         subtitleProgress += frameCount % 5 === 0;
@@ -173,9 +182,8 @@ function writeSubtitle() {
 
     }
 
+    textFont(subtitleFont);
     textSize(subtitleSize);
-    textStyle(NORMAL);
-
     text(currentSubtitle.substring(0, subtitleProgress), width / 2, height / 2 + lineSpace);
 }
 

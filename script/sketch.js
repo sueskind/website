@@ -37,6 +37,13 @@ let titleSize = 56;
 let subtitleSize = 26;
 let lineSpace = 40;
 const textColor = 100;
+
+// typing settings
+const waitTextFull = 50;
+const waitTextEmpty = 50;
+const typingTextSpeed = 5;
+const removingTextSpeed = 2;
+
 const title = "JONAS SÜSKIND";
 const subtitles = [
     "programming", "coding", "computer science", "generative design", "generative art", "photography", "graphic design",
@@ -146,7 +153,7 @@ function writeText() {
     // Subtitle
     if (subtitleState === 0) { // typing
 
-        subtitleProgress += frameCount % 5 === 0;
+        subtitleProgress += frameCount % typingTextSpeed === 0;
 
         if (subtitleProgress > subtitles[currentSubtitle].length) {
             subtitleState = 1;
@@ -154,16 +161,16 @@ function writeText() {
 
     } else if (subtitleState === 1) { // waiting in full length
 
-        waitingProgress += frameCount % 5 === 0;
+        waitingProgress++;
 
-        if (waitingProgress > 10) {
+        if (waitingProgress > waitTextFull) {
             waitingProgress = 0;
             subtitleState = 2;
         }
 
     } else if (subtitleState === 2) { // removing
 
-        subtitleProgress -= frameCount % 2 === 0;
+        subtitleProgress -= frameCount % removingTextSpeed === 0;
 
         if (subtitleProgress < 1) {
             subtitleState = 3;
@@ -171,9 +178,9 @@ function writeText() {
 
     } else if (subtitleState === 3) { // waiting in zero length
 
-        waitingProgress += frameCount % 5 === 0;
+        waitingProgress++;
 
-        if (waitingProgress > 10) {
+        if (waitingProgress > waitTextEmpty) {
             waitingProgress = 0;
             subtitleState = 0;
 

@@ -73,7 +73,7 @@ function setup() {
         subtitleSize = 20;
         lineSpace = 26
     }
-    currentSubtitle = random(subtitles);
+    currentSubtitle = int(random(0, subtitles.length));
 
     let primaryColor = hsvToHexString(colorOffset / 100, 0.9, 1);
     document.getElementById("j").style.color = primaryColor;
@@ -149,7 +149,7 @@ function writeText() {
 
         subtitleProgress += frameCount % 5 === 0;
 
-        if (subtitleProgress > currentSubtitle.length) {
+        if (subtitleProgress > subtitles[currentSubtitle].length) {
             subtitleState = 1;
         }
 
@@ -177,14 +177,17 @@ function writeText() {
         if (waitingProgress > 10) {
             waitingProgress = 0;
             subtitleState = 0;
-            currentSubtitle = random(subtitles);
+
+            let newSubtitle = int(random(0, subtitles))
+            newSubtitle += newSubtitle === currentSubtitle; // avoid the same one
+            currentSubtitle = newSubtitle;
         }
 
     }
 
     textFont(subtitleFont);
     textSize(subtitleSize);
-    text(currentSubtitle.substring(0, subtitleProgress), width / 2, height / 2 + lineSpace);
+    text(subtitles[currentSubtitle].substring(0, subtitleProgress), width / 2, height / 2 + lineSpace);
 }
 
 function windowResized() {

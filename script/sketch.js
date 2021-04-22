@@ -47,7 +47,7 @@ const removingTextSpeed = 2;
 const title = "JONAS SÜSKIND";
 const subtitles = [
     "programming", "coding", "computer science", "generative design", "generative art", "photography", "graphic design",
-    "I use arch btw ..."
+    "Lorem ipsum dolor sit amet", "I use arch btw ..."
 ]
 let currentSubtitle;
 let subtitleProgress = 0;
@@ -79,7 +79,7 @@ function setup() {
         subtitleSize = 20;
         lineSpace = 26
     }
-    currentSubtitle = int(random(0, subtitles.length - 1)); // -1 so easter egg can't be first
+    currentSubtitle = int(random(0, subtitles.length - 2)); // -2 so easter eggs can't be first
 
     let primaryColor = hsvToHexString(colorOffset / 100, 0.9, 1);
     document.getElementById("j").style.color = primaryColor;

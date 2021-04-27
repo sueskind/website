@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="author" content="Jonas Süskind">
+
+    <title>Generative Design - Jonas Süskind</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/generative-design.css">
+    <link rel="stylesheet"
+          href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/styles/atelier-cave-light.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/highlight.min.js"></script>
+
+    <style>
+        .bgimage {
+            background: url("../img/generativeart_bg.png") no-repeat 0 0;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .colored {
+            color: #008CBA;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="index.html">{ <span class="colored">J</span> }</a></li>
+                <li>{<a href="about-me.html">ab<span class="colored">o</span>ut_me</a>}</li>
+                <li>{<a href="under-construction.html">codi<span class="colored">n</span>g</a>}</li>
+                <li>{<a href="under-construction.html">photogr<span class="colored">a</span>phy</a>}</li>
+                <li>{<a href="under-construction.html">generative_de<span class="colored">s</span>ign</a>}</li>
+                <li>{<a href="under-construction.html">blog</a>}</li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<div class="bgimage">
+    <h1>Generative Art</h1>
+</div>
+<div id="showcase">
+    <div>
+        <button class="button" onclick="starsky();hljs.highlightBlock(document.getElementById('code'));">Starsky
+        </button>
+        <button class="button" onclick="cardioid();hljs.highlightBlock(document.getElementById('code'));">Cardioid
+        </button>
+        <button class="button" onclick="snakes();hljs.highlightBlock(document.getElementById('code'));">Snakes</button>
+        <button class="button" onclick="gameoflife();hljs.highlightBlock(document.getElementById('code'));">GameOfLife
+        </button>
+        <button onclick="" disabled>More coming!</button>
+    </div>
+    <iframe id="sketchframe" src="" scrolling="no">
+        <p>Your browser does not support iframes.</p>
+    </iframe>
+    <button id="fullscreen" onclick="window.open(document.getElementById('sketchframe').src);">Fullscreen sketch
+    </button>
+    <h3 id="title">Title</h3>
+    <div id="description">Description</div>
+</div>
+<script>
+    hljs.initHighlightingOnLoad();
+    starsky(); //called once at start
+
+    function cardioid() {
+        document.getElementById('sketchframe').src = './generativedesign_sketches/cardioid.html';
+        document.getElementById('title').innerHTML = 'Cardioid';
+        document.getElementById('description').innerHTML =
+            "<p>There are imaginary points on a circle. From the start of the sketch a value d gets incremented by a fixed decimal. Now point 1 on the circle gets connected with point 1*d. Point 2 gets connected with point 2*d and so forth for each point. This process repeats every frame. For d = 2 the lines form the outline of a cardioid, hence the name of the sketch. For large d the lines form some trippy shapes.</p>\n" +
+            "<pre><code id='code' class='javascript'>" +
+            "var points = []; //List of [x,y] tuples\n" +
+            "var d = 0;\n\n" +
+            "function draw(){\n" +
+            "  for(let i = 0; i < points.length; i++){\n" +
+            "    let to = Math.floor(i * d);\n" +
+            "    line(points[i][0], points[i][1], points[to][0], points[to][1]); //draws line from x1, y1 to x2, y2\n" +
+            "  }\n" +
+            "  d += 0.1;\n" +
+            "}" +
+            "</code></pre>";
+    }
+
+    function snakes() {
+        document.getElementById('sketchframe').src = './generativedesign_sketches/snakes.html';
+        document.getElementById('title').innerHTML = 'Snakes';
+        document.getElementById('description').innerHTML =
+            "<p>The routine manages two lists of vectors: positions (filled with position vectors) and directions (filled with vectors of length 'length'). Each iteration a target point gets calculated for each point in positions through adding the corresponding vector from directions. Then every direction vector gets turned by a random angle between -maxAngle and +maxAngle and the next iteration starts. The colors are randomly selected by a Perlin noise function.</p>\n" +
+            "<pre><code id='code' class='javascript'>" +
+            "var positions = [];\n" +
+            "var directions = [];\n\n" +
+            "function draw(){\n" +
+            "  for(let i = 0; i < count; i++){\n" +
+            "    line(positions[i].x, positions[i].y, positions[i].x + directions[i].x, positions[i].y + directions[i].y); //draws line from x1, y1 to x2, y2\n" +
+            "    positions[i].add(directions[i]);\n" +
+            "    directions[i].rotate(random(-maxAngle, maxAngle));\n" +
+            "  }\n" +
+            "}" +
+            "</code></pre>";
+    }
+
+    function gameoflife() {
+        document.getElementById('sketchframe').src = './generativedesign_sketches/gameoflife.html';
+        document.getElementById('title').innerHTML = 'GameOfLife';
+        document.getElementById('description').innerHTML =
+            "<p>The Game of Life is a cellular automaton devised by John H. Conway. Each cell has two states: alive (white) and dead (black). Wether a dead cell gets reborn or an alive cell dies in the next generation (frame) depends on just three rules:</br>1. If a living cell has 2 or 3 direct neighbours it stays alive.</br>2. Otherwise it dies due to loneliness/overpopulation.</br>3. If a dead cell has exactly 3 neighbours it gets revived.</br>" +
+            "There are lots of starting states that form interesting populations. Some die out completely, some reach a repeating end state, some even reproduce.</p>" +
+            "<p>The cells are stored in a 2D array with values 0 and 1, symbolising dead and alive respectively. Each iteration the neighbours for every cell are counted (with edge-wrap-around) and a new array created.</p>" +
+            "<pre><code id='code' class='javascript'>" +
+            "var cells = [];\n\n" +
+            "function draw(){\n" +
+            "  let new_cells = [];\n" +
+            "  for(let i = 0; i < cells.length; i++){\n" +
+            "    new_cells.push([]);\n" +
+            "    for(let j = 0; j < cells[0].length; j++)\n" +
+            "      if(cells[i][j] == 0)\n" +
+            "        if(neighbours(i, j) == 3)\n" +
+            "          new_cells[i].push(1);\n" +
+            "        else\n" +
+            "          new_cells[i].push(0);\n" +
+            "      else\n" +
+            "        if(neighbours(i, j) == 2 || neighbours(i, j) == 3)\n" +
+            "          new_cells[i].push(1);\n" +
+            "        else\n" +
+            "          new_cells[i].push(0);\n" +
+            "  }\n" +
+            "  cells = new_cells;\n" +
+            "}" +
+            "</code></pre>" +
+            "<p>But Jonas, why can't I add cells while the simulation runs?</br>The beauty of Game of Life is its determinicity. Based on its initial state it will have the same outcome. Everytime.</p>\n";
+    }
+
+    function starsky() {
+        document.getElementById('sketchframe').src = './generativedesign_sketches/starsky.html';
+        document.getElementById('title').innerHTML = 'Starsky';
+        document.getElementById('description').innerHTML =
+            "<p>This sketch is a simulation of particles in space. When pressed, the particles obey a gravitational force towards the mouse with 1/r proportionality (r being the distance particle -> mouse). In reality it is a 1/r^2 proportionality (but it looks boring on this small canvas). There are no masses taken into account. g is the gravitaional constant. When the acceleration rises above max. acceleration it gets set to the maximum value which adds a cool effect.</p>\n" +
+            "<p>There are 3 arrays of vectors for the states of the particles (positions, velocities and accelerations). When the mouse is pressed, each frame the acceleration gets calculated and added to the velocity. Then the velocity gets added to the position. The color depends on the velocity of each particle.</p>" +
+            "<pre><code id='code' class='javascript'>" +
+            "var positions = []; //filled with position vectors\n" +
+            "var velocities = []; //filled with velocity vectors\n" +
+            "var accelerations = []; //filled with acceleration vectors\n\n" +
+            "function draw(){\n" +
+            "  if(mousePressed){\n" +
+            "    for(let i = 0; i < count; i++){\n" +
+            "      let diff_vector = createVector(mouseX - positions[i].x, mouseY - positions[i].y);\n" +
+            "      diff_vector.setMag(g / diff_vector.mag());\n" +
+            "      accelerations[i] = diff_vector;\n" +
+            "      velocities[i].add(accelerations[i]);\n" +
+            "    }\n" +
+            "  }\n" +
+            "  for(let i = 0; i < count; i++){\n" +
+            "    positions[i].add(velocities[i]);\n" +
+            "  }\n" +
+            "}" +
+            "</code></pre>";
+    }
+</script>
+</body>
+
+</html>

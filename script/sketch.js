@@ -1,4 +1,3 @@
-
 // canvas constants
 const margin = -30; // space around canvas borders
 const backgroundColor = 9; // greyscale
@@ -6,7 +5,7 @@ const slideBack = -30; // parallax effect strength
 const fade = 100; // opacity of newly drawn background (the lower, the more fading)
 
 // variables for particles
-const particlesPerMP = 600; // particles per megapixel screen resolution
+const particlesPerMP = 400; // particles per megapixel screen resolution
 const particleSize = 4;
 const maxVel = 0.08; // cap for velocity
 const maxAcc = 0.05; // cap for acceleration
@@ -15,9 +14,9 @@ let particles = []; //array for holding references
 let particleCount;
 
 // variables for interaction of particles
-const range = 65; // distance to have a chance to connect
+const range = 80; // distance to have a chance to connect
 const framesToReset = 60 * 60 * 2; // 2 minutes, after that particles choose new neighbours
-const probabilityToConnect = 0.5;
+const probabilityToConnect = 0.3;
 
 // colored lines
 const colorRange = 60; // range on color wheel (0-100)

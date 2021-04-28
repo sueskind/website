@@ -138,8 +138,8 @@
         document.getElementById('sketchframe').src = './generativedesign_sketches/starsky.html';
         document.getElementById('title').innerHTML = 'Starsky';
         document.getElementById('description').innerHTML =
-            "<p>This sketch is a simulation of particles in space. When pressed, the particles obey a gravitational force towards the mouse with 1/r proportionality (r being the distance particle -> mouse). In reality it is a 1/r^2 proportionality (but it looks boring on this small canvas). There are no masses taken into account. g is the gravitaional constant. When the acceleration rises above max. acceleration it gets set to the maximum value which adds a cool effect.</p>\n" +
-            "<p>There are 3 arrays of vectors for the states of the particles (positions, velocities and accelerations). When the mouse is pressed, each frame the acceleration gets calculated and added to the velocity. Then the velocity gets added to the position. The color depends on the velocity of each particle.</p>" +
+            "<p>This sketch is a simulation of particles in space. When pressed, the particles obey a gravitational force towards the mouse with 1/r proportionality (r being the distance particle -> mouse). In reality it is a 1/r^2 proportionality (but it looks boring on this small canvas). There are no masses taken into account. g is the gravitational constant. When the acceleration rises above max. acceleration it gets set to the maximum value which adds a cool effect.</p>\n" +
+            "<p>There are 3 arrays of vectors for the states of the particles (positions, velocities and accelerations). When the mouse is pressed, the acceleration gets calculated and added to the velocity each frame. Then the velocity gets added to the position. The color depends on the velocity of each particle.</p>" +
             "<pre><code id='code' class='javascript'>" +
             "var positions = []; //filled with position vectors\n" +
             "var velocities = []; //filled with velocity vectors\n" +

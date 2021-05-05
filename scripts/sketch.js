@@ -38,10 +38,11 @@ let lineSpace = 40;
 const textColor = 100;
 
 // typing settings
-const waitTextFull = 50;
+const waitTextFull = 100;
 const waitTextEmpty = 50;
 const typingTextSpeed = 5;
 const removingTextSpeed = 2;
+const cursorBlinkingSpeed = 25;
 
 const title = "JONAS SÜSKIND";
 const subtitles = [
@@ -191,9 +192,18 @@ function writeText() {
 
     }
 
+    let subtitle = subtitles[currentSubtitle].substring(0, subtitleProgress);
+
+    // append cursor
+    if (subtitleState === 0 || subtitleState === 2 || Math.floor(frameCount / cursorBlinkingSpeed) % 2 === 0) {
+        subtitle = subtitle + "│";
+    } else {
+        subtitle = subtitle + " ";
+    }
+
     textFont(subtitleFont);
     textSize(subtitleSize);
-    text(subtitles[currentSubtitle].substring(0, subtitleProgress), width / 2, height / 2 + lineSpace);
+    text(subtitle, width / 2, height / 2 + lineSpace);
 }
 
 function windowResized() {

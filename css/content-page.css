@@ -56,10 +56,15 @@
     box-sizing: border-box;
 }
 
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
 .img-container {
-    float: left;
-    width: 33.33%;
+    display: flex;
+    width: 400px;
     padding: 5px;
     position: relative;
     cursor: pointer;

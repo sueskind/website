@@ -1,6 +1,2 @@
 .idea/
 photography/img
-
-# image generating code
-venv/
-generate-images.py

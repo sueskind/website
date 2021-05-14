@@ -60,7 +60,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 30px 0 20px 0;
+    margin: auto;
+    max-width: 1500px;
 }
 
 .img-container {

@@ -64,6 +64,10 @@
     max-width: 1500px;
 }
 
+.album {
+    max-width: unset;
+}
+
 .img-container {
     display: flex;
     width: 400px;

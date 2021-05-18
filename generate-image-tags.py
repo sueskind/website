@@ -8,7 +8,7 @@ template = """    <div class="img-container">
     </div>
 """
 
-region = "bolivia"
+region = "peru"
 
-for i in range(36):
+for i in range(14):
     print(template.format(region, region, f"{i + 1:03d}", region, region, f"{i + 1:03d}"))

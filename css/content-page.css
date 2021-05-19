@@ -110,3 +110,7 @@ img {
     transform: translate(-50%, -50%);
     text-align: center;
 }
+
+.album-description {
+    font-size: 30px;
+}

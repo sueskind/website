@@ -71,7 +71,7 @@
 .img-container {
     display: flex;
     width: 400px;
-    margin: 0px 7px 7px 7px;
+    margin: 0 7px 7px 7px;
     position: relative;
     cursor: pointer;
 }

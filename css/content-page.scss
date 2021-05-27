@@ -39,4 +39,40 @@
       width: 50px;
     }
   }
+
+  .coding {
+    display: grid;
+    grid-gap: 20px;
+
+    .card {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+
+      background-color: #0f0f0f;
+      box-shadow: 0 4px 10px #0a0a0a;
+      border-radius: 20px;
+      padding: 10px;
+
+      .image {
+        flex: 0 1 500px;
+        margin: 10px;
+
+        a {
+          text-decoration: none;
+          margin: 0 auto;
+
+          img {
+            width: 100%;
+          }
+        }
+      }
+
+      .description {
+        flex: 10 1 700px;
+        margin: 10px;
+      }
+    }
+  }
 }

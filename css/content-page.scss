@@ -83,4 +83,20 @@
       }
     }
   }
+
+  .album {
+    flex: 1;
+    display: grid;
+    grid-gap: 7px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, max-content));
+    justify-content: center;
+
+    .tile {
+      max-width: 400px;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
 }

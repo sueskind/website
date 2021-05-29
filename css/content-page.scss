@@ -95,6 +95,7 @@
       max-width: 400px;
       display: flex;
       position: relative;
+      overflow: hidden;
 
       a {
         display: flex;
@@ -103,6 +104,7 @@
       img {
         width: 100%;
         border-radius: 1%;
+        transition: .5s ease;
       }
 
       .textoverlay {
@@ -117,9 +119,15 @@
         transition: .5s ease;
       }
 
-      &:hover .textoverlay {
-        opacity: 1;
-        transform: translateY(-10px);
+      &:hover {
+        .textoverlay {
+          opacity: 1;
+          transform: translateY(-10px);
+        }
+
+        img {
+          transform: scale(1.07);
+        }
       }
 
       .description {

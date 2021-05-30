@@ -41,24 +41,36 @@
 <div class="title">
     <h1>Generative Design</h1>
 </div>
-<div id="showcase">
+<div class="content">
     <div>
-        <button class="button" onclick="starsky();hljs.highlightBlock(document.getElementById('code'));">Starsky
+        <button class="button" onclick="starsky();hljs.highlightBlock(document.getElementById('code'));">
+            Starsky
         </button>
-        <button class="button" onclick="cardioid();hljs.highlightBlock(document.getElementById('code'));">Cardioid
+        <button class="button" onclick="cardioid();hljs.highlightBlock(document.getElementById('code'));">
+            Cardioid
         </button>
-        <button class="button" onclick="snakes();hljs.highlightBlock(document.getElementById('code'));">Snakes</button>
-        <button class="button" onclick="gameoflife();hljs.highlightBlock(document.getElementById('code'));">GameOfLife
+        <button class="button" onclick="snakes();hljs.highlightBlock(document.getElementById('code'));">
+            Snakes
         </button>
-        <button onclick="" disabled>More coming!</button>
+        <button class="button" onclick="gameoflife();hljs.highlightBlock(document.getElementById('code'));">
+            GameOfLife
+        </button>
+        <button onclick="" disabled>
+            More coming!
+        </button>
     </div>
     <iframe id="sketchframe" src="" scrolling="no">
-        <p>Your browser does not support iframes.</p>
+        Your browser does not support iframes.
     </iframe>
-    <button id="fullscreen" onclick="window.open(document.getElementById('sketchframe').src);">Fullscreen sketch
+    <button id="fullscreen" onclick="window.open(document.getElementById('sketchframe').src);">
+        Fullscreen sketch
     </button>
-    <h3 id="title">Title</h3>
-    <div id="description">Description</div>
+    <h3 id="title">
+        Title
+    </h3>
+    <div id="description">
+        Description
+    </div>
 </div>
 <script>
     hljs.initHighlightingOnLoad();

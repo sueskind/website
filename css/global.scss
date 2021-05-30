@@ -6,6 +6,10 @@ body {
   font: 20px/1.5 "Open Sans Extrabold", Helvetica, sans-serif;
   color: #ffffff;
 
+  p {
+    font: 20px "Open Sans Regular", Helvetica, sans-serif;
+  }
+
   header {
     display: flex;
     justify-content: flex-end;

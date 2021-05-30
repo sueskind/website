@@ -1,0 +1,204 @@
+.title {
+  height: 300px;
+  display: grid;
+  place-items: center;
+}
+
+.title h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 55px;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  margin: 40px;
+}
+
+.content .about-me {
+  display: grid;
+  grid-template-columns: minmax(auto, 1200px);
+  justify-items: center;
+}
+
+.content .about-me .profile-picture {
+  display: grid;
+  width: 50%;
+  max-width: 300px;
+  margin: 10px;
+}
+
+.content .about-me .profile-picture img {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.content .about-me .icon {
+  margin: 10px;
+  width: 50px;
+}
+
+.content .coding {
+  display: grid;
+  grid-gap: 20px;
+}
+
+.content .coding .card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: #0f0f0f;
+  box-shadow: 0 4px 10px #0a0a0a;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.content .coding .card .image {
+  flex: 0 1 500px;
+  margin: 10px;
+}
+
+.content .coding .card .image a {
+  text-decoration: none;
+  margin: 0 auto;
+}
+
+.content .coding .card .image a img {
+  width: 100%;
+}
+
+.content .coding .card .description {
+  flex: 10 1 700px;
+  margin: 10px;
+}
+
+.content .coding .card .description h3 {
+  margin: 0 0 5px 0;
+  color: #7100b8;
+}
+
+.content .coding .card .description p {
+  color: #ffffff;
+}
+
+.content .album {
+  flex: 1;
+  display: grid;
+  grid-gap: 7px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, max-content));
+  justify-content: center;
+}
+
+.content .album .tile {
+  max-width: 400px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  border-radius: 1%;
+}
+
+.content .album .tile a {
+  display: flex;
+}
+
+.content .album .tile img {
+  width: 100%;
+  transition: 0.5s ease;
+}
+
+.content .album .tile .textoverlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: 0.5s ease;
+}
+
+.content .album .tile:hover .textoverlay {
+  opacity: 1;
+  transform: translateY(-10px);
+}
+
+.content .album .tile:hover img {
+  transform: scale(1.07);
+}
+
+.content .album .tile .description {
+  color: #ffffff;
+  font-size: 20px;
+  text-shadow: 2px 2px 3px black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.content .album .tile .album-description {
+  font-size: 30px;
+}
+
+.content .generative-design {
+  max-width: 1200px;
+  min-width: 0;
+}
+
+.content .generative-design .button-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.content .generative-design .button {
+  margin: 2px;
+  padding: 16px 32px;
+  border: 2px solid #008CBA;
+  border-radius: 10px;
+  background-color: #1a1a1a;
+  color: #008CBA;
+  font-weight: bold;
+  font-family: monospace;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.content .generative-design .button:hover {
+  background-color: #008CBA;
+  color: #ffffff;
+}
+
+.content .generative-design .button:disabled {
+  border-color: #e0e0e0;
+  background-color: #5f5f5f;
+  color: #e0e0e0;
+  cursor: default;
+}
+
+.content .generative-design .button-small {
+  padding: 4px 6px;
+}
+
+.content .generative-design #sketchframe {
+  height: 500px;
+  width: 100%;
+  border: none;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.content .generative-design h3 {
+  font-size: 30px;
+  margin: 20px 0 0 0;
+  color: #008CBA;
+}
+
+/*# sourceMappingURL=content-page.css.map */

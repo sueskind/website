@@ -151,9 +151,14 @@
   }
 
   .generative-design {
-    display: grid;
-    grid-template-columns: minmax(auto, 1200px);
-    justify-items: center;
+    max-width: 1200px;
+    min-width: 0;
+
+    .button-navigation {
+      display: flex;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
 
     .button {
       margin: 2px;

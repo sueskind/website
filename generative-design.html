@@ -2,13 +2,14 @@
 <html lang="en-US">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Jonas Süskind">
 
     <title>Generative Design - Jonas Süskind</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="./img/icons/favicon.png">
     <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/content-page.css">
 
     <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/highlight.min.js"></script>
     <link rel="stylesheet"
@@ -42,34 +43,38 @@
     <h1>Generative Design</h1>
 </div>
 <div class="content">
-    <div>
-        <button class="button" onclick="starsky();hljs.highlightBlock(document.getElementById('code'));">
-            Starsky
+    <div class="generative-design">
+
+        <div>
+            <button class="button" onclick="starsky();hljs.highlightBlock(document.getElementById('code'));">
+                Starsky
+            </button>
+            <button class="button" onclick="cardioid();hljs.highlightBlock(document.getElementById('code'));">
+                Cardioid
+            </button>
+            <button class="button" onclick="snakes();hljs.highlightBlock(document.getElementById('code'));">
+                Snakes
+            </button>
+            <button class="button" onclick="gameoflife();hljs.highlightBlock(document.getElementById('code'));">
+                GameOfLife
+            </button>
+            <button class="button" onclick="" disabled>
+                More coming!
+            </button>
+        </div>
+        <iframe id="sketchframe" src="" scrolling="no">
+            Your browser does not support iframes.
+        </iframe>
+        <button class="button button-small" onclick="window.open(document.getElementById('sketchframe').src);">
+            Fullscreen sketch
         </button>
-        <button class="button" onclick="cardioid();hljs.highlightBlock(document.getElementById('code'));">
-            Cardioid
-        </button>
-        <button class="button" onclick="snakes();hljs.highlightBlock(document.getElementById('code'));">
-            Snakes
-        </button>
-        <button class="button" onclick="gameoflife();hljs.highlightBlock(document.getElementById('code'));">
-            GameOfLife
-        </button>
-        <button onclick="" disabled>
-            More coming!
-        </button>
-    </div>
-    <iframe id="sketchframe" src="" scrolling="no">
-        Your browser does not support iframes.
-    </iframe>
-    <button id="fullscreen" onclick="window.open(document.getElementById('sketchframe').src);">
-        Fullscreen sketch
-    </button>
-    <h3 id="title">
-        Title
-    </h3>
-    <div id="description">
-        Description
+        <h3 id="title">
+            Title
+        </h3>
+        <div id="description">
+            Description
+        </div>
+
     </div>
 </div>
 <script>

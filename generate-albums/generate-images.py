@@ -25,7 +25,7 @@ def main():
 
     args = parser.parse_args()
     album_name = args.name
-    source = args.target
+    source = args.src
 
     os.makedirs(OUT_DIR_FULL, exist_ok=True)
     os.makedirs(OUT_DIR_THUMBS, exist_ok=True)

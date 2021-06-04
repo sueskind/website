@@ -9,23 +9,23 @@ from PIL import Image, ImageOps
 def main():
     parser = argparse.ArgumentParser("Create fullsize images with watermark and thumbnail images.")
     parser.add_argument("name", help="Name for the album.")
-    parser.add_argument("target", help="Target path where the original images are.")
+    parser.add_argument("src", help="Source directory where the original images are.")
 
     args = parser.parse_args()
     album_name = args.name
-    target = args.target
+    source = args.target
 
     os.makedirs("fullsize", exist_ok=True)
     os.makedirs("thumbs", exist_ok=True)
 
-    files = os.listdir(target)
+    files = os.listdir(source)
 
     for i, f in enumerate(sorted(files), start=1):
         print(f"{i}/{len(files)}", end="\r")
 
-        og_img = ImageOps.exif_transpose(Image.open(os.path.join(target, f)))
+        og_img = ImageOps.exif_transpose(Image.open(os.path.join(source, f)))
 
-        # fullsize
+        # ----- fullsize -----
         img = og_img.copy()
 
         # resize
@@ -38,7 +38,7 @@ def main():
 
         img.save(os.path.join("fullsize", f"{album_name}-fullsize-{i:03d}.jpg"), quality=80, optimize=True)
 
-        # thumbnail
+        # ----- thumbnail -----
         img = og_img.copy()
 
         # resize

@@ -2,8 +2,11 @@
 
 import argparse
 import os
+import random
 
 from PIL import Image, ImageOps
+
+SHUFFLE_SEED = 1
 
 RESOLUTION_FULL = 2000  # length of the longer side
 RESOLUTION_THUMB = (600, 450)  # width, height
@@ -32,7 +35,12 @@ def main():
 
     files = os.listdir(source)
 
-    for i, f in enumerate(sorted(files), start=1):
+    # deterministic shuffle
+    files.sort()
+    random.seed(SHUFFLE_SEED)
+    random.shuffle(files)
+
+    for i, f in enumerate(files, start=1):
         print(f"{i}/{len(files)}", end="\r")
 
         og_img = ImageOps.exif_transpose(Image.open(os.path.join(source, f)))

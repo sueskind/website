@@ -5,6 +5,15 @@ import os
 
 from PIL import Image, ImageOps
 
+RESOLUTION_FULL = 2000  # length of the longer side
+RESOLUTION_THUMB = (600, 450)  # width, height
+
+QUALITY_FULL = 80
+QUALITY_THUMB = 80
+
+FILENAME_FMT_FULL = "{}-fullsize-{:03d}.jpg"
+FILENAME_FMT_THUMB = "{}-thumb-{:03d}.jpg"
+
 
 def main():
     parser = argparse.ArgumentParser("Create fullsize images with watermark and thumbnail images.")
@@ -31,30 +40,33 @@ def main():
         # resize
         width, height = img.size
         if width > height:
-            factor = 2000 / width
+            factor = RESOLUTION_FULL / width
         else:
-            factor = 2000 / height
+            factor = RESOLUTION_FULL / height
         img = img.resize((int(width * factor), int(height * factor)), Image.LANCZOS)
 
-        img.save(os.path.join("fullsize", f"{album_name}-fullsize-{i:03d}.jpg"), quality=80, optimize=True)
+        img.save(os.path.join("fullsize", FILENAME_FMT_FULL.format(album_name, i)), quality=QUALITY_FULL, optimize=True)
 
         # ----- thumbnail -----
         img = og_img.copy()
 
         # resize
         width, height = img.size
-        if width / height < 600 / 450:
-            factor = 600 / width
-        else:
-            factor = 450 / height
+        width_goal, height_goal = RESOLUTION_THUMB
+        if width / height < width_goal / height_goal:  # if image is more stretched vertically than goal
+            factor = width_goal / width
+        else:  # if image is more stretched horizontally than goal
+            factor = height_goal / height
         img = img.resize((int(width * factor), int(height * factor)), Image.LANCZOS)
-        width, height = img.size
-        img = img.crop((width // 2 - 600 // 2,  # left
-                        height // 2 - 450 // 2,  # top
-                        width // 2 + 600 // 2,  # right
-                        height // 2 + 450 // 2))  # bottom
 
-        img.save(os.path.join("thumbs", f"{album_name}-thumb-{i:03d}.jpg"), quality=80, optimize=True)
+        # center crop
+        width, height = img.size
+        img = img.crop((width // 2 - width_goal // 2,  # left
+                        height // 2 - height_goal // 2,  # top
+                        width // 2 + width_goal // 2,  # right
+                        height // 2 + height_goal // 2))  # bottom
+
+        img.save(os.path.join("thumbs", FILENAME_FMT_THUMB.format(album_name, i)), quality=QUALITY_THUMB, optimize=True)
 
 
 if __name__ == '__main__':

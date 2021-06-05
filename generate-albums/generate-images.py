@@ -1,6 +1,7 @@
 #!/usr/bin/python3.9
 
 import argparse
+import json
 import os
 import random
 
@@ -20,15 +21,32 @@ OUT_DIR_THUMBS = "thumbs"
 FILENAME_FMT_FULL = "{}-fullsize-{:03d}.jpg"
 FILENAME_FMT_THUMB = "{}-thumb-{:03d}.jpg"
 
+# album, full_name, album, thumb_name, description
+HMTL_FMT = """
+<div class="tile">
+    <a href="./img/{}/fullsize/{}">
+        <img src="./img/{}/thumbs/{}" alt="image"/>
+        <div class="textoverlay">
+            <div class="description">{}</div>
+        </div>
+    </a>
+</div>
+"""
+
 
 def main():
     parser = argparse.ArgumentParser("Create fullsize images with watermark and thumbnail images.")
     parser.add_argument("name", help="Name for the album.")
     parser.add_argument("src", help="Source directory where the original images are.")
+    parser.add_argument("descr", help="Path to the description.json")
 
     args = parser.parse_args()
     album_name = args.name
     source = args.src
+    descr = args.descr
+
+    with open(descr, "r") as f:
+        descriptions = json.load(f)
 
     os.makedirs(OUT_DIR_FULL, exist_ok=True)
     os.makedirs(OUT_DIR_THUMBS, exist_ok=True)
@@ -39,6 +57,8 @@ def main():
     files.sort()
     random.seed(SHUFFLE_SEED)
     random.shuffle(files)
+
+    html_output = ""
 
     for i, f in enumerate(files, start=1):
         print(f"{i}/{len(files)}", end="\r")
@@ -56,8 +76,8 @@ def main():
             factor = RESOLUTION_FULL / height
         img = img.resize((int(width * factor), int(height * factor)), Image.LANCZOS)
 
-        img.save(os.path.join(OUT_DIR_FULL, FILENAME_FMT_FULL.format(album_name, i)), quality=QUALITY_FULL,
-                 optimize=True)
+        full_name = FILENAME_FMT_FULL.format(album_name, i)
+        img.save(os.path.join(OUT_DIR_FULL, full_name), quality=QUALITY_FULL, optimize=True)
 
         # ----- thumbnail -----
         img = og_img.copy()
@@ -78,8 +98,12 @@ def main():
                         width // 2 + width_goal // 2,  # right
                         height // 2 + height_goal // 2))  # bottom
 
-        img.save(os.path.join(OUT_DIR_THUMBS, FILENAME_FMT_THUMB.format(album_name, i)), quality=QUALITY_THUMB,
-                 optimize=True)
+        thumb_name = FILENAME_FMT_THUMB.format(album_name, i)
+        img.save(os.path.join(OUT_DIR_THUMBS, thumb_name), quality=QUALITY_THUMB, optimize=True)
+
+        html_output += HMTL_FMT.format(album_name, full_name, album_name, thumb_name, descriptions[f])
+
+    print(html_output)
 
 
 if __name__ == '__main__':

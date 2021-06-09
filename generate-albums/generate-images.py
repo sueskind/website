@@ -5,7 +5,7 @@ import json
 import os
 import random
 
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageFont, ImageDraw
 
 SHUFFLE_SEED = 1
 
@@ -20,6 +20,9 @@ OUT_DIR_THUMBS = "thumbs"
 
 FILENAME_FMT_FULL = "{}-fullsize-{:03d}.jpg"
 FILENAME_FMT_THUMB = "{}-thumb-{:03d}.jpg"
+
+WATERMARK = "© Jonas Süskind"
+font = ImageFont.truetype("OpenSans-Regular.ttf", 80)
 
 # album, full_name, album, thumb_name, description
 HMTL_FMT = """
@@ -75,6 +78,10 @@ def main():
         else:
             factor = RESOLUTION_FULL / height
         img = img.resize((int(width * factor), int(height * factor)), Image.LANCZOS)
+
+        # add watermark
+        draw = ImageDraw.Draw(img)
+        draw.text((img.size[0] - 600, img.size[1] - 100), WATERMARK, fill=(255, 255, 255, 100), font=font)
 
         full_name = FILENAME_FMT_FULL.format(album_name, i)
         img.save(os.path.join(OUT_DIR_FULL, full_name), quality=QUALITY_FULL, optimize=True)

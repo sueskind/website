@@ -81,7 +81,7 @@ def main():
 
         # add watermark
         draw = ImageDraw.Draw(img)
-        draw.text((img.size[0] - 600, img.size[1] - 100), WATERMARK, fill=(255, 255, 255, 100), font=font)
+        draw.text(img.size, WATERMARK, fill=(255, 255, 255, 100), font=font, anchor="rb")
 
         full_name = FILENAME_FMT_FULL.format(album_name, i)
         img.save(os.path.join(OUT_DIR_FULL, full_name), quality=QUALITY_FULL, optimize=True)

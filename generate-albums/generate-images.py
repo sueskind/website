@@ -80,8 +80,10 @@ def main():
         img = img.resize((int(width * factor), int(height * factor)), Image.LANCZOS)
 
         # add watermark
-        draw = ImageDraw.Draw(img)
-        draw.text(img.size, WATERMARK, fill=(255, 255, 255, 100), font=font, anchor="rb")
+        text_img = Image.new("RGBA", img.size, (255, 255, 255, 0))
+        draw = ImageDraw.Draw(text_img)
+        draw.text(img.size, WATERMARK, fill=(255, 255, 255, 150), font=font, anchor="rb")
+        img = Image.alpha_composite(img.convert("RGBA"), text_img).convert("RGB")
 
         full_name = FILENAME_FMT_FULL.format(album_name, i)
         img.save(os.path.join(OUT_DIR_FULL, full_name), quality=QUALITY_FULL, optimize=True)

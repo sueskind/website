@@ -2,5 +2,5 @@
 photography/img/
 *.css.map
 generate-albums/*
-!generate-albums/generate-description-template.py
+!generate-albums/generate-config-template.py
 !generate-albums/generate-images.py

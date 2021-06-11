@@ -41,15 +41,16 @@ def main():
     parser = argparse.ArgumentParser("Create fullsize images with watermark and thumbnail images.")
     parser.add_argument("name", help="Name for the album.")
     parser.add_argument("src", help="Source directory where the original images are.")
-    parser.add_argument("descr", help="Path to the description.json")
+    parser.add_argument("cfg", help="Path to the config.json")
 
     args = parser.parse_args()
     album_name = args.name
     source = args.src
-    descr = args.descr
+    config = args.cfg
 
-    with open(descr, "r") as f:
-        descriptions = json.load(f)
+    with open(config, "r") as f:
+        configuration = json.load(f)
+    descriptions = configuration
 
     os.makedirs(OUT_DIR_FULL, exist_ok=True)
     os.makedirs(OUT_DIR_THUMBS, exist_ok=True)

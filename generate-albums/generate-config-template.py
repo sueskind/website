@@ -11,6 +11,14 @@ args = parser.parse_args()
 target = args.target
 
 files = {f: "" for f in os.listdir(target)}
+config = {
+    "descriptions": files,
+    "background": {
+        "file": "",
+        "location": (0, 0)
+    },
+    "thumbnail": ""
+}
 
 with open("config.json", "w") as f:
     json.dump(files, f, indent=4, sort_keys=True)

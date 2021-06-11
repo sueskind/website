@@ -50,7 +50,9 @@ def main():
 
     with open(config, "r") as f:
         configuration = json.load(f)
-    descriptions = configuration
+    descriptions = configuration["descriptions"]
+    background_cfg = configuration["background"]
+    thumbnail_file = configuration["thumbnail"]
 
     os.makedirs(OUT_DIR_FULL, exist_ok=True)
     os.makedirs(OUT_DIR_THUMBS, exist_ok=True)

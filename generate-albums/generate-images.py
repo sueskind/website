@@ -20,6 +20,8 @@ OUT_DIR_THUMBS = "thumbs"
 
 FILENAME_FMT_FULL = "{}-fullsize-{:03d}.jpg"
 FILENAME_FMT_THUMB = "{}-thumb-{:03d}.jpg"
+FILENAME_FTM_ALBUM_THUMB = "{}-thumb.jpg"
+FILENAME_FTM_ALBUM_BG = "{}-bg.jpg"
 
 WATERMARK = "© Jonas Süskind"
 font = ImageFont.truetype("OpenSans-Regular.ttf", 80)
@@ -51,7 +53,7 @@ def main():
     with open(config, "r") as f:
         configuration = json.load(f)
     descriptions = configuration["descriptions"]
-    background_cfg = configuration["background"]
+    background_file, background_y = configuration["background"]["file"], configuration["background"]["y"]
     thumbnail_file = configuration["thumbnail"]
 
     os.makedirs(OUT_DIR_FULL, exist_ok=True)
@@ -112,6 +114,10 @@ def main():
 
         thumb_name = FILENAME_FMT_THUMB.format(album_name, i)
         img.save(os.path.join(OUT_DIR_THUMBS, thumb_name), quality=QUALITY_THUMB, optimize=True)
+
+        # ----- album thumbnail -----
+        if f == thumbnail_file:
+            img.save(FILENAME_FTM_ALBUM_THUMB.format(album_name), quality=QUALITY_THUMB, optimize=True)
 
         html_output += HMTL_FMT.format(album_name, full_name, album_name, thumb_name, descriptions[f])
 

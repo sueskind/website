@@ -11,6 +11,7 @@ SHUFFLE_SEED = 1
 
 RESOLUTION_FULL = 2000  # length of the longer side
 RESOLUTION_THUMB = (600, 450)  # width, height
+RESOLUTION_BG = (2560, 500)  # width > height
 
 QUALITY_FULL = 80
 QUALITY_THUMB = 80
@@ -118,6 +119,23 @@ def main():
         # ----- album thumbnail -----
         if f == thumbnail_file:
             img.save(FILENAME_FTM_ALBUM_THUMB.format(album_name), quality=QUALITY_THUMB, optimize=True)
+
+        # ----- album background -----
+        if f == background_file:
+            img = og_img.copy()
+
+            # resize
+            width, height = img.size
+            width_goal, height_goal = RESOLUTION_BG
+            factor = width_goal / width
+            img = img.resize((width_goal, int(height * factor)), Image.LANCZOS)
+
+            # crop at y
+            width, height = img.size
+            position = background_y * height
+            img = img.crop((0, position, width, position + height_goal))
+
+            img.save(FILENAME_FTM_ALBUM_BG.format(album_name), quality=QUALITY_THUMB, optimize=True)
 
         html_output += HMTL_FMT.format(album_name, full_name, album_name, thumb_name, descriptions[f])
 

@@ -15,7 +15,7 @@ config = {
     "descriptions": files,
     "background": {
         "file": "",
-        "y": 0
+        "y": 0.0
     },
     "thumbnail": ""
 }

@@ -21,4 +21,4 @@ config = {
 }
 
 with open("config.json", "w") as f:
-    json.dump(files, f, indent=4, sort_keys=True)
+    json.dump(config, f, indent=4, sort_keys=True)

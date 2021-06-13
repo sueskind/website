@@ -1,8 +1,8 @@
 #!/usr/bin/python3.9
 
-import argparse
 import json
 import os
+from os.path import join
 import random
 from multiprocessing import Pool
 
@@ -17,6 +17,9 @@ RESOLUTION_BG = (2560, 500)  # width > height
 QUALITY_FULL = 80
 QUALITY_THUMB = 80
 
+IN_DIR = "original"
+CFG_FILENAME = "config.json"
+
 OUT_DIR_FULL = "fullsize"
 OUT_DIR_THUMBS = "thumbs"
 
@@ -24,6 +27,8 @@ FILENAME_FMT_FULL = "{}-fullsize-{:03d}.jpg"
 FILENAME_FMT_THUMB = "{}-thumb-{:03d}.jpg"
 FILENAME_FTM_ALBUM_THUMB = "{}-thumb.jpg"
 FILENAME_FTM_ALBUM_BG = "{}-bg.jpg"
+
+HTML_OUTPUT_FILENAME = "output.txt"
 
 WATERMARK = "© Jonas Süskind"
 font = ImageFont.truetype("OpenSans-Regular.ttf", 80)
@@ -41,10 +46,10 @@ HMTL_FMT = """
 """
 
 
-def convert_parallel_job(i, source, f, album_name, thumbnail_file, background_file, background_y, description):
+def convert_parallel_job(i, source, target, f, album_name, thumbnail_file, background_file, background_y, description):
     # print(f"{i}/{n}", end="\r")
 
-    og_img = ImageOps.exif_transpose(Image.open(os.path.join(source, f)))
+    og_img = ImageOps.exif_transpose(Image.open(join(source, f)))
 
     # ----- fullsize -----
     img = og_img.copy()
@@ -64,7 +69,7 @@ def convert_parallel_job(i, source, f, album_name, thumbnail_file, background_fi
     img = Image.alpha_composite(img.convert("RGBA"), text_img).convert("RGB")
 
     full_name = FILENAME_FMT_FULL.format(album_name, i)
-    img.save(os.path.join(OUT_DIR_FULL, full_name), quality=QUALITY_FULL, optimize=True)
+    img.save(join(target, OUT_DIR_FULL, full_name), quality=QUALITY_FULL, optimize=True)
 
     # ----- thumbnail -----
     img = og_img.copy()
@@ -86,11 +91,11 @@ def convert_parallel_job(i, source, f, album_name, thumbnail_file, background_fi
                     height // 2 + height_goal // 2))  # bottom
 
     thumb_name = FILENAME_FMT_THUMB.format(album_name, i)
-    img.save(os.path.join(OUT_DIR_THUMBS, thumb_name), quality=QUALITY_THUMB, optimize=True)
+    img.save(join(target, OUT_DIR_THUMBS, thumb_name), quality=QUALITY_THUMB, optimize=True)
 
     # ----- album thumbnail -----
     if f == thumbnail_file:
-        img.save(FILENAME_FTM_ALBUM_THUMB.format(album_name), quality=QUALITY_THUMB, optimize=True)
+        img.save(join(target, FILENAME_FTM_ALBUM_THUMB.format(album_name)), quality=QUALITY_THUMB, optimize=True)
 
     # ----- album background -----
     if f == background_file:
@@ -107,20 +112,20 @@ def convert_parallel_job(i, source, f, album_name, thumbnail_file, background_fi
         position = background_y * height
         img = img.crop((0, position, width, position + height_goal))
 
-        img.save(FILENAME_FTM_ALBUM_BG.format(album_name), quality=QUALITY_THUMB, optimize=True)
+        img.save(join(target, FILENAME_FTM_ALBUM_BG.format(album_name)), quality=QUALITY_THUMB, optimize=True)
 
     return HMTL_FMT.format(album_name, full_name, album_name, thumb_name, description)
 
 
-def convert_album(album_name, source, config):
+def convert_album(album_name, source, target, config):
     with open(config, "r") as f:
         configuration = json.load(f)
     descriptions = configuration["descriptions"]
     background_file, background_y = configuration["background"]["file"], configuration["background"]["y"]
     thumbnail_file = configuration["thumbnail"]
 
-    os.makedirs(OUT_DIR_FULL, exist_ok=True)
-    os.makedirs(OUT_DIR_THUMBS, exist_ok=True)
+    os.makedirs(join(target, OUT_DIR_FULL), exist_ok=True)
+    os.makedirs(join(target, OUT_DIR_THUMBS), exist_ok=True)
 
     files = os.listdir(source)
 
@@ -133,30 +138,29 @@ def convert_album(album_name, source, config):
 
     outputs = pool.starmap(
         convert_parallel_job,
-        ((i, source, f, album_name, thumbnail_file, background_file, background_y, descriptions[f])
+        ((i, source, target, f, album_name, thumbnail_file, background_file, background_y, descriptions[f])
          for i, f in enumerate(files, start=1))
     )
 
     pool.close()
     pool.join()
 
-    html_output = "".join(outputs)
-
-    return html_output
+    return "".join(outputs)
 
 
 def main():
-    parser = argparse.ArgumentParser("Create fullsize images with watermark and thumbnail images.")
-    parser.add_argument("name", help="Name for the album.")
-    parser.add_argument("src", help="Source directory where the original images are.")
-    parser.add_argument("cfg", help="Path to the config.json")
+    ROOT_DIR = "../photography/img"
 
-    args = parser.parse_args()
-    album_name = args.name
-    source = args.src
-    config = args.cfg
+    for album in sorted(os.listdir(ROOT_DIR)):
+        print(album)
 
-    print(convert_album(album_name, source, config))
+        html = convert_album(album_name=album,
+                             source=join(ROOT_DIR, album, IN_DIR),
+                             target=join(ROOT_DIR, album),
+                             config=join(ROOT_DIR, album, CFG_FILENAME))
+
+        with open(join(ROOT_DIR, album, HTML_OUTPUT_FILENAME), "w") as f:
+            f.write(html)
 
 
 if __name__ == '__main__':

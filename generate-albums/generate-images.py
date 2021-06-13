@@ -40,17 +40,7 @@ HMTL_FMT = """
 """
 
 
-def main():
-    parser = argparse.ArgumentParser("Create fullsize images with watermark and thumbnail images.")
-    parser.add_argument("name", help="Name for the album.")
-    parser.add_argument("src", help="Source directory where the original images are.")
-    parser.add_argument("cfg", help="Path to the config.json")
-
-    args = parser.parse_args()
-    album_name = args.name
-    source = args.src
-    config = args.cfg
-
+def convert_album(album_name, source, config):
     with open(config, "r") as f:
         configuration = json.load(f)
     descriptions = configuration["descriptions"]
@@ -139,7 +129,21 @@ def main():
 
         html_output += HMTL_FMT.format(album_name, full_name, album_name, thumb_name, descriptions[f])
 
-    print(html_output)
+    return html_output
+
+
+def main():
+    parser = argparse.ArgumentParser("Create fullsize images with watermark and thumbnail images.")
+    parser.add_argument("name", help="Name for the album.")
+    parser.add_argument("src", help="Source directory where the original images are.")
+    parser.add_argument("cfg", help="Path to the config.json")
+
+    args = parser.parse_args()
+    album_name = args.name
+    source = args.src
+    config = args.cfg
+
+    print(convert_album(album_name, source, config))
 
 
 if __name__ == '__main__':

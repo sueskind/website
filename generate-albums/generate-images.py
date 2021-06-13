@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 import random
+from multiprocessing import Pool
 
 from PIL import Image, ImageOps, ImageFont, ImageDraw
 
@@ -40,6 +41,77 @@ HMTL_FMT = """
 """
 
 
+def convert_parallel_job(i, source, f, album_name, thumbnail_file, background_file, background_y, description):
+    # print(f"{i}/{n}", end="\r")
+
+    og_img = ImageOps.exif_transpose(Image.open(os.path.join(source, f)))
+
+    # ----- fullsize -----
+    img = og_img.copy()
+
+    # resize
+    width, height = img.size
+    if width > height:
+        factor = RESOLUTION_FULL / width
+    else:
+        factor = RESOLUTION_FULL / height
+    img = img.resize((int(width * factor), int(height * factor)), Image.LANCZOS)
+
+    # add watermark
+    text_img = Image.new("RGBA", img.size, (255, 255, 255, 0))
+    draw = ImageDraw.Draw(text_img)
+    draw.text(img.size, WATERMARK, fill=(255, 255, 255, 150), font=font, anchor="rb")
+    img = Image.alpha_composite(img.convert("RGBA"), text_img).convert("RGB")
+
+    full_name = FILENAME_FMT_FULL.format(album_name, i)
+    img.save(os.path.join(OUT_DIR_FULL, full_name), quality=QUALITY_FULL, optimize=True)
+
+    # ----- thumbnail -----
+    img = og_img.copy()
+
+    # resize
+    width, height = img.size
+    width_goal, height_goal = RESOLUTION_THUMB
+    if width / height < width_goal / height_goal:  # if image is more stretched vertically than goal
+        factor = width_goal / width
+    else:  # if image is more stretched horizontally than goal
+        factor = height_goal / height
+    img = img.resize((int(width * factor), int(height * factor)), Image.LANCZOS)
+
+    # center crop
+    width, height = img.size
+    img = img.crop((width // 2 - width_goal // 2,  # left
+                    height // 2 - height_goal // 2,  # top
+                    width // 2 + width_goal // 2,  # right
+                    height // 2 + height_goal // 2))  # bottom
+
+    thumb_name = FILENAME_FMT_THUMB.format(album_name, i)
+    img.save(os.path.join(OUT_DIR_THUMBS, thumb_name), quality=QUALITY_THUMB, optimize=True)
+
+    # ----- album thumbnail -----
+    if f == thumbnail_file:
+        img.save(FILENAME_FTM_ALBUM_THUMB.format(album_name), quality=QUALITY_THUMB, optimize=True)
+
+    # ----- album background -----
+    if f == background_file:
+        img = og_img.copy()
+
+        # resize
+        width, height = img.size
+        width_goal, height_goal = RESOLUTION_BG
+        factor = width_goal / width
+        img = img.resize((width_goal, int(height * factor)), Image.LANCZOS)
+
+        # crop at y
+        width, height = img.size
+        position = background_y * height
+        img = img.crop((0, position, width, position + height_goal))
+
+        img.save(FILENAME_FTM_ALBUM_BG.format(album_name), quality=QUALITY_THUMB, optimize=True)
+
+    return HMTL_FMT.format(album_name, full_name, album_name, thumb_name, description)
+
+
 def convert_album(album_name, source, config):
     with open(config, "r") as f:
         configuration = json.load(f)
@@ -57,77 +129,18 @@ def convert_album(album_name, source, config):
     random.seed(SHUFFLE_SEED)
     random.shuffle(files)
 
-    html_output = ""
+    pool = Pool()
 
-    for i, f in enumerate(files, start=1):
-        print(f"{i}/{len(files)}", end="\r")
+    outputs = pool.starmap(
+        convert_parallel_job,
+        ((i, source, f, album_name, thumbnail_file, background_file, background_y, descriptions[f])
+         for i, f in enumerate(files, start=1))
+    )
 
-        og_img = ImageOps.exif_transpose(Image.open(os.path.join(source, f)))
+    pool.close()
+    pool.join()
 
-        # ----- fullsize -----
-        img = og_img.copy()
-
-        # resize
-        width, height = img.size
-        if width > height:
-            factor = RESOLUTION_FULL / width
-        else:
-            factor = RESOLUTION_FULL / height
-        img = img.resize((int(width * factor), int(height * factor)), Image.LANCZOS)
-
-        # add watermark
-        text_img = Image.new("RGBA", img.size, (255, 255, 255, 0))
-        draw = ImageDraw.Draw(text_img)
-        draw.text(img.size, WATERMARK, fill=(255, 255, 255, 150), font=font, anchor="rb")
-        img = Image.alpha_composite(img.convert("RGBA"), text_img).convert("RGB")
-
-        full_name = FILENAME_FMT_FULL.format(album_name, i)
-        img.save(os.path.join(OUT_DIR_FULL, full_name), quality=QUALITY_FULL, optimize=True)
-
-        # ----- thumbnail -----
-        img = og_img.copy()
-
-        # resize
-        width, height = img.size
-        width_goal, height_goal = RESOLUTION_THUMB
-        if width / height < width_goal / height_goal:  # if image is more stretched vertically than goal
-            factor = width_goal / width
-        else:  # if image is more stretched horizontally than goal
-            factor = height_goal / height
-        img = img.resize((int(width * factor), int(height * factor)), Image.LANCZOS)
-
-        # center crop
-        width, height = img.size
-        img = img.crop((width // 2 - width_goal // 2,  # left
-                        height // 2 - height_goal // 2,  # top
-                        width // 2 + width_goal // 2,  # right
-                        height // 2 + height_goal // 2))  # bottom
-
-        thumb_name = FILENAME_FMT_THUMB.format(album_name, i)
-        img.save(os.path.join(OUT_DIR_THUMBS, thumb_name), quality=QUALITY_THUMB, optimize=True)
-
-        # ----- album thumbnail -----
-        if f == thumbnail_file:
-            img.save(FILENAME_FTM_ALBUM_THUMB.format(album_name), quality=QUALITY_THUMB, optimize=True)
-
-        # ----- album background -----
-        if f == background_file:
-            img = og_img.copy()
-
-            # resize
-            width, height = img.size
-            width_goal, height_goal = RESOLUTION_BG
-            factor = width_goal / width
-            img = img.resize((width_goal, int(height * factor)), Image.LANCZOS)
-
-            # crop at y
-            width, height = img.size
-            position = background_y * height
-            img = img.crop((0, position, width, position + height_goal))
-
-            img.save(FILENAME_FTM_ALBUM_BG.format(album_name), quality=QUALITY_THUMB, optimize=True)
-
-        html_output += HMTL_FMT.format(album_name, full_name, album_name, thumb_name, descriptions[f])
+    html_output = "".join(outputs)
 
     return html_output
 

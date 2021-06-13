@@ -5,12 +5,12 @@ import os
 import json
 
 parser = argparse.ArgumentParser("Create a config.json template for all images in target.")
-parser.add_argument("target", help="Target path where the images are.")
+parser.add_argument("images", help="Target path where the images are.")
 
 args = parser.parse_args()
-target = args.target
+images = args.images
 
-files = {f: "" for f in os.listdir(target)}
+files = {f: "" for f in os.listdir(images)}
 config = {
     "descriptions": files,
     "background": {
@@ -20,5 +20,4 @@ config = {
     "thumbnail": ""
 }
 
-with open("config.json", "w") as f:
-    json.dump(config, f, indent=4, sort_keys=True)
+print(json.dumps(config, indent=4, sort_keys=True))

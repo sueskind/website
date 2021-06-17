@@ -19,6 +19,8 @@ QUALITY_THUMB = 80
 
 IN_DIR = "original"
 CFG_FILENAME = "config.json"
+HTML_TEMPLATE_FILENAME = "template.html"
+TEMPLATE_CONTENT_MARKER = "!!!CONTENT!!!"
 
 OUT_DIR_FULL = "fullsize"
 OUT_DIR_THUMBS = "thumbs"
@@ -27,8 +29,7 @@ FILENAME_FMT_FULL = "{}-fullsize-{:03d}.jpg"
 FILENAME_FMT_THUMB = "{}-thumb-{:03d}.jpg"
 FILENAME_FTM_ALBUM_THUMB = "{}-thumb.jpg"
 FILENAME_FTM_ALBUM_BG = "{}-bg.jpg"
-
-HTML_OUTPUT_FILENAME = "output.txt"
+FILENAME_FTM_HTML_OUTPUT = "{}.html"
 
 WATERMARK = "© Jonas Süskind"
 font = ImageFont.truetype("OpenSans-Regular.ttf", 80)
@@ -149,18 +150,22 @@ def convert_album(album_name, source, target, config):
 
 
 def main():
-    ROOT_DIR = "../photography/img"
+    HTML_DIR = "../photography"
+    IMG_DIR = "../photography/img"
 
-    for album in sorted(os.listdir(ROOT_DIR)):
+    for album in sorted(os.listdir(IMG_DIR)):
         print(album)
 
-        html = convert_album(album_name=album,
-                             source=join(ROOT_DIR, album, IN_DIR),
-                             target=join(ROOT_DIR, album),
-                             config=join(ROOT_DIR, album, CFG_FILENAME))
+        html_content = convert_album(album_name=album,
+                                     source=join(IMG_DIR, album, IN_DIR),
+                                     target=join(IMG_DIR, album),
+                                     config=join(IMG_DIR, album, CFG_FILENAME))
 
-        with open(join(ROOT_DIR, album, HTML_OUTPUT_FILENAME), "w") as f:
-            f.write(html)
+        with open(join(IMG_DIR, album, HTML_TEMPLATE_FILENAME), "r") as f:
+            template = f.read()
+
+        with open(join(HTML_DIR, FILENAME_FTM_HTML_OUTPUT.format(album)), "w") as f:
+            f.write(template.replace(TEMPLATE_CONTENT_MARKER, html_content))
 
 
 if __name__ == '__main__':

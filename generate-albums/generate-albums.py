@@ -153,7 +153,9 @@ def main():
     HTML_DIR = "../photography"
     IMG_DIR = "../photography/img"
 
-    for album in sorted(os.listdir(IMG_DIR)):
+    album_list = os.listdir(IMG_DIR)  # overwrite to select specific ones
+
+    for album in sorted(album_list):
         print(album)
 
         html_content = convert_album(album_name=album,

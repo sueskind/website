@@ -1,6 +1,11 @@
+# Idea IDEs
 .idea/
+
+# All content for photography
 photography/img/
-*.css.map
 generate-albums/*
 !generate-albums/generate-config-template.py
 !generate-albums/generate-albums.py
+
+# sass/scss
+*.css.map

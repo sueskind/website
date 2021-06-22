@@ -8,4 +8,6 @@ generate-albums/*
 !generate-albums/generate-albums.py
 
 # sass/scss
-*.css.map
+*.sass-cache/
+css/*.css
+css/*.css.map

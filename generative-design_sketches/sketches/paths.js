@@ -4,16 +4,21 @@ let origin;
 
 const count = 6;
 const frames = 10;
+
+const lineWidth = 10;
+const mainCircleSize = 80;
+const circleSize = 40;
+
 let frameWidth;
 let frameHeight;
 
 
 function setup() {
-    createCanvas(400, 400);
+    createCanvas(windowWidth, windowHeight);
 
     background(255);
     fill(255);
-    strokeWeight(3);
+    strokeWeight(lineWidth);
     noLoop();
 
     frameWidth = int(width / frames);
@@ -28,7 +33,6 @@ function setup() {
         points.push({"x": width / 2 + x, "y": y});
         points.push({"x": width / 2 - x, "y": y});
     }
-
 }
 
 function draw() {
@@ -42,9 +46,9 @@ function draw() {
                 line(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
             }
 
-            circle(origin.x, origin.y, 20);
+            circle(origin.x, origin.y, mainCircleSize);
             for (let i = 0; i < count; i++) {
-                circle(points[i].x, points[i].y, 15);
+                circle(points[i].x, points[i].y, circleSize);
             }
 
             points = shuffle(points);
@@ -53,6 +57,4 @@ function draw() {
         }
         translate(-frameWidth * frames * frames, frameHeight * frames);
     }
-
-
 }

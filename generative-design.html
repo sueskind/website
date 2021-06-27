@@ -58,6 +58,9 @@
             <button class="button" onclick="gameoflife();hljs.highlightBlock(document.getElementById('code'));">
                 GameOfLife
             </button>
+            <button class="button" onclick="paths();hljs.highlightBlock(document.getElementById('code'));">
+                Paths
+            </button>
             <button class="button" onclick="" disabled>
                 More coming!
             </button>
@@ -171,6 +174,16 @@
             "    positions[i].add(velocities[i]);\n" +
             "  }\n" +
             "}" +
+            "</code></pre>";
+    }
+
+    function paths() {
+        document.getElementById('sketchframe').src = './generative-design_sketches/paths.html';
+        document.getElementById('title').innerHTML = 'Paths';
+        document.getElementById('description').innerHTML =
+            "<p></p>\n" +
+            "<p></p>" +
+            "<pre><code id='code' class='javascript'>" +
             "</code></pre>";
     }
 </script>

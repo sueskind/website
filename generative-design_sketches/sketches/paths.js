@@ -12,19 +12,29 @@ const circleSize = 40;
 let frameWidth;
 let frameHeight;
 
+let resetButton;
+
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
-
-    background(255);
-    fill(255);
-    strokeWeight(lineWidth);
     noLoop();
 
     frameWidth = int(width / frames);
     frameHeight = int(height / frames);
 
+    strokeWeight(lineWidth);
+    fill(255);
+    stroke(0);
+
+    button_reset = createButton("Reset");
+    button_reset.position(20, 20);
+    button_reset.mousePressed(draw);
+
     origin = {"x": width / 2, "y": 20};
+}
+
+function draw() {
+    background(255);
 
     points = [];
     for (let i = 0; i < count / 2; i++) {
@@ -33,9 +43,7 @@ function setup() {
         points.push({"x": width / 2 + x, "y": y});
         points.push({"x": width / 2 - x, "y": y});
     }
-}
 
-function draw() {
     scale(1.0 / frames);
 
     for (let r = 0; r < frames; r++) {
@@ -57,4 +65,6 @@ function draw() {
         }
         translate(-frameWidth * frames * frames, frameHeight * frames);
     }
+
+    resetMatrix();
 }

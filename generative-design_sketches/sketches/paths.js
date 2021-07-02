@@ -14,7 +14,7 @@ let lineWidth = 1;
 let mainCircleSize = 7;
 let circleSize = 4;
 
-let resetButton;
+let refreshButton;
 
 
 function setup() {
@@ -35,7 +35,7 @@ function setup() {
     fill(255);
     stroke(0);
 
-    button_reset = createButton("Reset");
+    button_reset = createButton("Refresh");
     button_reset.position(20, 20);
     button_reset.mousePressed(draw);
 

@@ -2,7 +2,7 @@ let points;
 let indices;
 let mainPoint;
 
-const pointCount = 6;
+let pointCount;
 let frameSize;
 let frameCountX;
 let frameCountY;
@@ -16,6 +16,7 @@ let circleSize = 4;
 
 let refreshButton;
 let sizeSlider;
+let pointCountSlider;
 
 
 function setup() {
@@ -33,11 +34,16 @@ function setup() {
     sizeSlider.position(20, 50);
     sizeSlider.input(draw);
 
+    pointCountSlider = createSlider(2, 12, 6);
+    pointCountSlider.position(20, 80);
+    pointCountSlider.input(draw);
+
     mainPoint = {"x": 0.5, "y": 0.05};
 }
 
 function initCalc() {
     frameSize = sizeSlider.value();
+    pointCount = pointCountSlider.value();
 
     frameCountX = int(width / frameSize);
     frameCountY = int(height / frameSize);
@@ -88,8 +94,10 @@ function draw() {
     resetMatrix();
 
     rect(190, 50, 50, 20);
+    rect(190, 80, 60, 20);
 
     fill(0);
 
     text("Size", 200, 65);
+    text("Count", 200, 95);
 }

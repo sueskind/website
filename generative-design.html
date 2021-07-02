@@ -184,7 +184,7 @@
             "<p>In this sketch there are a couple of points generated (symmetrically on the right and left side). They are then randomly connected by a path.</p>\n" +
             "<p>To achieve this, the order of the points in their array is shuffled. Then a line is drawn to the point with the next index.</p>\n" +
             "<pre><code id='code' class='javascript'>\n" +
-            "line(origin.x, origin.y, points[0].x, points[0].y);\n" +
+            "line(mainPoint.x, mainPoint.y, points[0].x, points[0].y);\n" +
             "for (let i = 0; i < count - 1; i++) {\n" +
             "    line(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);\n" +
             "}\n" +

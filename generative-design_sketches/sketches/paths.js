@@ -3,7 +3,7 @@ let indices;
 let mainPoint;
 
 const pointCount = 6;
-const frameSize = 110;
+let frameSize;
 let frameCountX;
 let frameCountY;
 
@@ -15,11 +15,29 @@ let mainCircleSize = 7;
 let circleSize = 4;
 
 let refreshButton;
+let sizeSlider;
 
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
     noLoop();
+
+    textSize(15);
+    stroke(0);
+
+    refreshButton = createButton("Refresh");
+    refreshButton.position(20, 20);
+    refreshButton.mousePressed(draw);
+
+    sizeSlider = createSlider(30, 200, 110);
+    sizeSlider.position(20, 50);
+    sizeSlider.input(draw);
+
+    mainPoint = {"x": 0.5, "y": 0.05};
+}
+
+function initCalc() {
+    frameSize = sizeSlider.value();
 
     frameCountX = int(width / frameSize);
     frameCountY = int(height / frameSize);
@@ -27,23 +45,14 @@ function setup() {
     marginLeft = (width - frameCountX * frameSize) / 2;
     marginTop = (height - frameCountY * frameSize) / 2;
 
-    lineWidth /= frameSize;
-    mainCircleSize /= frameSize;
-    circleSize /= frameSize;
-
-    strokeWeight(lineWidth);
-    fill(255);
-    stroke(0);
-
-    refreshButton = createButton("Refresh");
-    refreshButton.position(20, 20);
-    refreshButton.mousePressed(draw);
-
-    mainPoint = {"x": 0.5, "y": 0.05};
+    strokeWeight(lineWidth / frameSize);
 }
 
 function draw() {
+    initCalc();
+
     background(255);
+    fill(255);
 
     points = [];
     for (let i = 0; i < pointCount / 2; i++) {
@@ -64,9 +73,9 @@ function draw() {
                 line(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
             }
 
-            circle(mainPoint.x, mainPoint.y, mainCircleSize);
+            circle(mainPoint.x, mainPoint.y, mainCircleSize / frameSize);
             for (let i = 0; i < pointCount; i++) {
-                circle(points[i].x, points[i].y, circleSize);
+                circle(points[i].x, points[i].y, circleSize / frameSize);
             }
 
             points = shuffle(points);
@@ -77,4 +86,10 @@ function draw() {
     }
 
     resetMatrix();
+
+    rect(190, 50, 50, 20);
+
+    fill(0);
+
+    text("Size", 200, 65);
 }

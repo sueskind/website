@@ -35,9 +35,9 @@ function setup() {
     fill(255);
     stroke(0);
 
-    button_reset = createButton("Refresh");
-    button_reset.position(20, 20);
-    button_reset.mousePressed(draw);
+    refreshButton = createButton("Refresh");
+    refreshButton.position(20, 20);
+    refreshButton.mousePressed(draw);
 
     mainPoint = {"x": 0.5, "y": 0.05};
 }

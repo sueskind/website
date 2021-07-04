@@ -63,6 +63,10 @@
       margin: auto;
     }
 
+    p {
+      margin: 10px 0 10px 0;
+    }
+
     b {
       font: 20px "Open Sans Extrabold", Helvetica, sans-serif;
     }
@@ -70,7 +74,11 @@
     .code-shadow {
       background: #3b3b3b;
       padding: 5px 5px 0 5px;
-      border-radius: 3px;
+      border-radius: 5px;
+    }
+
+    pre {
+      margin: 0 20px 0 20px;
     }
   }
 

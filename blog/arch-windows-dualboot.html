@@ -48,6 +48,26 @@
             with a single drive holding both installations or installing them on two separate drives.</b>
         </p>
 
+        <h3>Installing Windows</h3>
+
+        <p>
+            First we need to install Windows. If you are on Windows you can download the Microsoft Media Creation Tool
+            <a href="https://www.microsoft.com/de-de/software-download/windows10">here</a>. If you are on Linux, you
+            get an ISO via the same link. After following the tool's instructions you have a bootable Windows USB drive.
+        </p>
+
+        <p>
+            It is not quite clear why, but Windows does not always enable all Windows Versions for installation. For
+            using Bitlocker however, you need <b>Windows 10 Pro</b>. To ensure this version will be available at
+            installation you need to create a file <code class="code-shadow">ei.cfg</code> inside the
+            <code class="code-shadow">sources</code> folder with the following contents:
+        </p>
+
+        <pre class="code-shadow"><code>[EditionID]
+Professional
+[Channel]
+Retail</code></pre>
+
     </div>
 </div>
 

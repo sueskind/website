@@ -63,11 +63,14 @@
       margin: auto;
     }
 
-    p {
+    b {
+      font: 20px "Open Sans Extrabold", Helvetica, sans-serif;
+    }
 
-      b {
-        font: 20px "Open Sans Extrabold", Helvetica, sans-serif;
-      }
+    code {
+      background: #3b3b3b;
+      padding: 5px 5px 0 5px;
+      border-radius: 3px;
     }
   }
 

@@ -18,7 +18,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #1a1a1a;
-  font: 20px/1.5 "Open Sans Extrabold", Helvetica, sans-serif;
+  font: 20px "Open Sans", Helvetica, sans-serif;
   color: #ffffff;
 
   p {
@@ -33,6 +33,7 @@ body {
     display: flex;
     justify-content: flex-end;
     padding: 5px;
+    font: 20px "Open Sans Extrabold", Helvetica, sans-serif;
 
     ul {
       margin: 0;

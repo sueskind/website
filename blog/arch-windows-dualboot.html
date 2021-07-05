@@ -68,6 +68,37 @@ Professional
 [Channel]
 Retail</code></pre>
 
+        <p>
+            Next, you need to go into the boot menu of the machine you want to install Windows to and make sure that
+            UEFI and AHCI are enabled, but secure boot is disabled. Then boot on the just created USB drive in UEFI
+            mode. Follow the standard instructions, but when you get to the partitioning step we need to make sure that
+            the ESP (EFI system partition) is large enough for both operating systems:
+        </p>
+
+        <ul>
+            <li>If there are any partitions on your target drive, delete them.</li>
+            <li>Press <code class="code-shadow">Shift + F10</code> to open the command prompt.</li>
+            <li>Enter <code class="code-shadow">diskpart.exe</code>.</li>
+            <li>Enter <code class="code-shadow">list disk</code> to list your disks.</li>
+            <li>Enter <code class="code-shadow">select disk n</code> where <code class="code-shadow">n</code> is the
+                number of the disk from the output of the previous command.
+            </li>
+            <li>Create the ESP with <code class="code-shadow">create partition efi size=500</code>. This reserves
+                500 MiB which should be plenty.
+            </li>
+            <li>Format the partition with <code class="code-shadow">format quick fs=fat32 label=System</code>.</li>
+            <li>Type <code class="code-shadow">exit</code> twice to exit to exit the partitioning program and the
+                command prompt.
+            </li>
+            <li>Press <code class="code-shadow">Refresh</code>.</li>
+            <li>Select the unallocated space and press <code class="code-shadow">New</code> to create the remaining
+                partitions and resume with the standard Windows installation.
+            </li>
+        </ul>
+
+        <p><b>Pro tip: Disconnect the machine from the internet for a faster setup without the need to use your
+            Microsoft Account.</b></p>
+
     </div>
 </div>
 

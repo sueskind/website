@@ -101,14 +101,29 @@ Retail</code></pre>
             </li>
         </ul>
 
-        <p><b>Pro tip: Disconnect the machine from the internet for a faster setup without the need to use your
-            Microsoft Account.</b></p>
+        <p><b>
+            Pro tip: Disconnect the machine from the internet for a faster setup without the need to use your
+            Microsoft Account.
+        </b></p>
 
-        Once the setup is complete you need to boot into Windows. Go into the settings and activate Bitlocker. Then
-        deactivate it right away. This will trigger the creation of a Recovery Partition. Next we need to install Arch
-        Linux:
+        <p>
+            Once the setup is complete you need to boot into Windows. Go into the settings and activate Bitlocker. Then
+            deactivate it right away. This will trigger the creation of a Recovery Partition. Next we need to install
+            Arch
+            Linux:
+        </p>
 
         <h3>Installing Arch Linux</h3>
+
+        <p>
+            First, you need to download an ISO from <a href="https://archlinux.org/download/">archlinux.org</a> and
+            flash it to USB. On Windows <a href="">Rufus</a> is a great tool for that and on Linux you can simply use
+            <code class="code-shadow">lsblk</code> to find your drive (e.g. /dev/sdx) and then
+            <code class="code-shadow">dd</code> to copy the image:
+        </p>
+
+        <pre class="code-shadow"><code>sudo dd bs=4M if=path/to/archlinux.iso of=/dev/sdx status=progress oflag=sync</code></pre>
+
 
     </div>
 </div>

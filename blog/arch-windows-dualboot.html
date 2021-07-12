@@ -125,6 +125,24 @@ Retail</code></pre>
 
         <pre class="code-shadow"><code>sudo dd bs=4M if=path/to/archlinux.iso of=/dev/sdx status=progress oflag=sync</code></pre>
 
+        <p>
+            Boot from the Linux USB drive in UEFI mode and select Arch install. If you need a localized keyboard you can
+            do e.g. <code class="code-shadow">loadkeys de-latin1</code>. Then perform the following steps to create the
+            LUKS container. You can list your current partitions with <code class="code-shadow">fdisk -l</code>. In my
+            case this installation was made on the same drive as Windows (
+            <code class="code-shadow">/dev/nvme0n1</code>), so <code class="code-shadow">/dev/nvme0n1p1</code> is the
+            EFI partition and <code class="code-shadow">/dev/nvme0n1p5</code> will be the LUKS partition. You might
+            adjust this setup to your needs when installing on two separate disks.
+        </p>
+
+        <pre class="code-shadow"><code>gdisk /dev/nvme0n1
+n [Enter]
+Partition number (default 5): [Enter]
+First sector: [Enter]
+Last sector: [Enter]
+Hex code or GUID: 8E00 [Enter]
+p [Enter]
+w [Enter]</code></pre>
 
     </div>
 </div>

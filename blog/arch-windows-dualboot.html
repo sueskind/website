@@ -144,6 +144,25 @@ Hex code or GUID: 8E00 [Enter]
 p [Enter]
 w [Enter]</code></pre>
 
+        <p>
+            Then we encrypt the partition with 512 bit AES-XTS:
+        </p>
+
+        <pre class="code-shadow"><code>cryptsetup luksFormat -c aes-xts-plain64 -s 512 /dev/nvme0n1p5
+[Follow instructions]
+cryptsetup open --type luks /dev/nvme0n1p5 lvm</code></pre>
+
+        <p>
+            Now the LUKS container is opened and we can create partitions inside of it. I create a 32 GB swap partition
+            and use the rest of the available space for the root file system.
+        </p>
+
+        <pre class="code-shadow"><code>vgcreate main /dev/mapper/lvm
+lvcreate -L 32G main -n swap
+lvcreate -l 100%FREE main -n root
+mkfs.ext4 /dev/mapper/main-root
+mkswap /dev/mapper/main-swap</code></pre>
+
     </div>
 </div>
 

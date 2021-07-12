@@ -163,6 +163,31 @@ lvcreate -l 100%FREE main -n root
 mkfs.ext4 /dev/mapper/main-root
 mkswap /dev/mapper/main-swap</code></pre>
 
+        <p>
+            Now we mount our partitions:
+        </p>
+
+        <pre class="code-shadow"><code>mount /dev/mapper/main-root /mnt
+mkdir /mnt/boot
+mount /dev/nvme0n1p1 /mnt/boot
+swapon /dev/mapper/main-swap</code></pre>
+
+        <p>
+            At this point you need to connect to Wifi if you aren't connected over Ethernet:
+        </p>
+
+        <pre class="code-shadow"><code>iwctl
+device list
+station &lt;device&gt; scan
+station &lt;device&gt; get-networks
+station &lt;device&gt; connect &lt;SSID&gt;
+station &lt;device&gt; show</code></pre>
+
+        <p>
+            Exit with <code class="code-shadow">Ctrl+C</code> and test your connection (to the Google DNS server) with
+            <code class="code-shadow">ping 8.8.8.8</code>.
+        </p>
+
     </div>
 </div>
 

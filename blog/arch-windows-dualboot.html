@@ -188,7 +188,6 @@ station &lt;device&gt; show</code></pre>
             <code class="code-shadow">ping 8.8.8.8</code>.
         </p>
 
-        <li><code class="code-shadow"></code></li>
         <p>
             Then we need to pacstrap the packages we want after installation. Mandatory are
             <code class="code-shadow">linux</code>, <code class="code-shadow">linux-firmware</code>,
@@ -226,6 +225,26 @@ hwclock --systohc</code></pre>
                 <code class="code-shadow">KEYMAP=de-latin1</code>).
             </li>
         </ul>
+
+        <p>
+            Choose a hostname and store write it into <code class="code-shadow">/etc/hostname</code>. Edit
+            <code class="code-shadow">/etc/hosts</code> and add:
+        </p>
+
+        <pre class="code-shadow"><code>127.0.0.1	localhost
+::1		localhost
+127.0.1.1	yourhostname.localdomain	yourhostname</code></pre>
+
+        <p>
+            Now, do <code class="code-shadow">nano /etc/mkinitcpio.conf</code> and edit the
+            <code class="code-shadow">HOOKS=(...</code> line. <b>The order is important!</b>:
+        </p>
+
+        <pre class="code-shadow"><code>HOOKS=(base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck shutdown)</code></pre>
+
+        <p>
+            Then run <code class="code-shadow">mkinitcpio -p linux</code>.
+        </p>
 
     </div>
 </div>

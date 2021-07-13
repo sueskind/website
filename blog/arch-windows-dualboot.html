@@ -200,6 +200,31 @@ station &lt;device&gt; show</code></pre>
 genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt</code></pre>
 
+        <p>
+            Set your time:
+        </p>
+
+        <pre class="code-shadow"><code>ln -sf /usr/share/zoneinfo/&lt;Region&gt;/&lt;City&gt; /etc/localtime
+hwclock --systohc</code></pre>
+
+        <p>
+            Set your locale:
+        </p>
+
+        <ul>
+            <li>
+                <code class="code-shadow">nano /etc/locale.gen</code> and uncomment your locale. Then do
+                <code class="code-shadow">locale-gen</code>.
+            </li>
+            <li>
+                <code class="code-shadow">nano /etc/locale.conf</code> and enter your locale (e.g.
+                <code class="code-shadow">LANG=en_US.UTF-8</code>).
+            </li>
+            <li>
+                <code class="code-shadow">nano /etc/vconsole.conf</code> and enter your keymap (e.g.
+                <code class="code-shadow">KEYMAP=de-latin1</code>).
+            </li>
+        </ul>
 
     </div>
 </div>

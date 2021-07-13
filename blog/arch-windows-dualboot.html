@@ -82,7 +82,7 @@ Retail</code></pre>
 
         <ul>
             <li>If there are any partitions on your target drive, delete them.</li>
-            <li>Press <code class="code-shadow">Shift + F10</code> to open the command prompt.</li>
+            <li>Press <code class="code-shadow">Shift+F10</code> to open the command prompt.</li>
             <li>Enter <code class="code-shadow">diskpart.exe</code>.</li>
             <li>Enter <code class="code-shadow">list disk</code> to list your disks.</li>
             <li>Enter <code class="code-shadow">select disk n</code> where <code class="code-shadow">n</code> is the
@@ -187,6 +187,19 @@ station &lt;device&gt; show</code></pre>
             Exit with <code class="code-shadow">Ctrl+C</code> and test your connection (to the Google DNS server) with
             <code class="code-shadow">ping 8.8.8.8</code>.
         </p>
+
+        <p>
+            Then we need to pacstrap the packages we want after installation. Mandatory are
+            <code class="code-shadow">linux</code>, <code class="code-shadow">linux-firmware</code>,
+            <code class="code-shadow">lvm2</code> and <code class="code-shadow">base</code>. For comfort however, we
+            will also take <code class="code-shadow">base-devel</code>, <code class="code-shadow">nano</code> and
+            <code class="code-shadow">networkmanager</code>:
+        </p>
+
+        <pre class="code-shadow"><code>pacstrap /mnt base base-devel linux linux-firmware nano lvm2 networkmanager
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt</code></pre>
+
 
     </div>
 </div>

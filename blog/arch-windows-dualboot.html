@@ -294,6 +294,21 @@ timeout   5</code></pre>
         </p>
 
         <p>
+            Press <code class="code-shadow">Win+R</code> and run <code class="code-shadow">gpedit.msc</code> to adjust
+            the Bitlocker settings to your needs under <code class="code-shadow">Administrator templates -> Windows
+            components -> bitlocker drive encryption</code>. I like to enable a stronger encryption algorithm, the need
+            to enter the password at startup and allowing enhanced PINs for startup. Restart afterwards (you can never
+            be sure...).
+        </p>
+
+        <p>
+            Go into your Bitlocker settings and enable Bitlocker for your <code class="code-shadow">C:</code> drive.
+            Choose a PIN, store the recovery file on a USB drive and Restart after the encryption has finished. Now try
+            your PIN. If you can start Windows now, <b>congratulations, you have installed Arch Linux alongside Windows
+            10 with LUKS and Bitlocker encryption.</b>
+        </p>
+
+        <p>
             <b>To be continued...</b>
         </p>
 

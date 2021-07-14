@@ -309,6 +309,27 @@ timeout   5</code></pre>
         </p>
 
         <p>
+            To get started in Arch however, a couple more steps are really useful. Boot into Arch and enable the
+            NetworkManager:
+        </p>
+
+        <pre class="code-shadow"><code>systemctl enable NetworkManager
+systemctl start NetworkManager</code></pre>
+
+        <p>
+            If you want to connect via Wifi do these steps in addition:
+        </p>
+
+        <pre class="code-shadow"><code>nmcli device wifi list
+nmcli device wifi connect &lt;SSID&gt; password &lt;password&gt;
+nmcli device status</code></pre>
+
+        <p>
+            And test if you have a connection by pinging the Google DNS with
+            <code class="code-shadow">ping 8.8.8.8</code>.
+        </p>
+
+        <p>
             <b>To be continued...</b>
         </p>
 

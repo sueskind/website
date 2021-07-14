@@ -346,10 +346,21 @@ visudo</code></pre>
 
         <pre class="code-shadow"><code>%wheel ALL=(ALL) NOPASSWD: ALL</code></pre>
 
+        <p>
+            Then, set a password for your user and give a home directory:
+        </p>
+
+        <pre class="code-shadow"><code>passwd &lt;name&gt;
+mkdir /home/&lt;name&gt;
+chown -R &lt;name&gt;:wheel /home/&lt;name&gt;</code></pre>
 
         <p>
-            <b>To be continued...</b>
+            Then <code class="code-shadow">logout</code> and login with your newly created user.
         </p>
+
+        <p>Finally, you can test if everything works properly by doing a pacman system upgrade:</p>
+
+        <pre class="code-shadow"><code>sudo pacman -Syu</code></pre>
 
     </div>
 </div>

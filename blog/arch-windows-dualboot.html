@@ -330,6 +330,24 @@ nmcli device status</code></pre>
         </p>
 
         <p>
+            It is common practice to setup a first user with sudo rights via the <code class="code-shadow">wheel</code>
+            group after installation:
+        </p>
+
+        <pre class="code-shadow"><code>useradd &lt;name&gt;
+usermod -aG wheel &lt;name&gt;
+export EDITOR=/usr/bin/nano
+visudo</code></pre>
+
+        <p>
+            Depending on how often you want to enter the root password when using sudo, uncomment a line. I don't want
+            to enter the root password on my local machine so I uncomment:
+        </p>
+
+        <pre class="code-shadow"><code>%wheel ALL=(ALL) NOPASSWD: ALL</code></pre>
+
+
+        <p>
             <b>To be continued...</b>
         </p>
 

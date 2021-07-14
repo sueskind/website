@@ -227,8 +227,8 @@ hwclock --systohc</code></pre>
         </ul>
 
         <p>
-            Choose a hostname and store write it into <code class="code-shadow">/etc/hostname</code>. Edit
-            <code class="code-shadow">/etc/hosts</code> and add:
+            Choose a hostname and store write it into <code class="code-shadow">/etc/hostname</code>. Then, edit
+            <code class="code-shadow">/etc/hosts</code> and enter:
         </p>
 
         <pre class="code-shadow"><code>127.0.0.1	localhost
@@ -243,11 +243,58 @@ hwclock --systohc</code></pre>
         <pre class="code-shadow"><code>HOOKS=(base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck shutdown)</code></pre>
 
         <p>
-            Then run <code class="code-shadow">mkinitcpio -p linux</code>.
+            Then run <code class="code-shadow">mkinitcpio -p linux</code>. Now we are ready to install systemd-boot:
+        </p>
+
+        <pre class="code-shadow"><code>bootctl install</code></pre>
+
+        <p>
+            Add a bootloader entry for Arch Linux and one as fallback:
         </p>
 
         <p>
-            To be continued...
+            In <code class="code-shadow">/boot/loader/entries/arch-uefi.conf</code> add (adjust your partition and
+            locale):
+        </p>
+
+        <pre class="code-shadow"><code>title    Arch Linux
+linux    /vmlinuz-linux
+initrd   /initramfs-linux.img
+options  cryptdevice=/dev/nvme0n1p5:main root=/dev/mapper/main-root lang=rn locale=en_US.UTF-8</code></pre>
+
+        <p>
+            In <code class="code-shadow">/boot/loader/entries/arch-uefi-fallback.conf</code> (adjust your partition and
+            locale):
+        </p>
+
+        <pre class="code-shadow"><code>title    Arch Linux Fallback
+linux    /vmlinuz-linux
+initrd   /initramfs-linux-fallback.img
+options  cryptdevice=/dev/nvme0n1p5:main root=/dev/mapper/main-root lang=rn locale=en_US.UTF-8</code></pre>
+
+        <p>
+            Then we set the first one as the default entry which is automatically confirmed after 5 seconds.
+            <code class="code-shadow">nano /boot/loader/loader.conf</code> and add:
+        </p>
+
+        <pre class="code-shadow"><code>default   arch-uefi
+timeout   5</code></pre>
+
+        <p>
+            <b>And as a last important step, don't forget to set a root password or you will lock yourself out:</b>
+        </p>
+
+        <pre class="code-shadow"><code>passwd</code></pre>
+
+        <p>
+            Now we exit the chroot with <code class="code-shadow">exit</code> and unmount the partitions with
+            <code class="code-shadow">umount -R /mnt</code>. Now restart into Arch Linux with
+            <code class="code-shadow">reboot</code> and see if you can login as root. Then restart again, this time into
+            Windows and we resume with the Bitlocker setup:
+        </p>
+
+        <p>
+            <b>To be continued...</b>
         </p>
 
     </div>

@@ -188,6 +188,9 @@ def convert_album(album_name, source, target, config):
         for k, v in previous_configuration["descriptions"].items():
             configuration["descriptions"][k] = v
 
+        with open(config, "w") as f:
+            json.dump(configuration, f, indent=4, sort_keys=True)
+
     descriptions = configuration["descriptions"]
     background_file, background_y = configuration["background"]["file"], configuration["background"]["y"]
     thumbnail_file = configuration["thumbnail"]

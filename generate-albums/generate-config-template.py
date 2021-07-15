@@ -14,10 +14,10 @@ files = {f: "" for f in os.listdir(images)}
 config = {
     "descriptions": files,
     "background": {
-        "file": "",
+        "file": list(files.keys())[0],
         "y": 0.0
     },
-    "thumbnail": ""
+    "thumbnail": list(files.keys())[0]
 }
 
 print(json.dumps(config, indent=4, sort_keys=True))

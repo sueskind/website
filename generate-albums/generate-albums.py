@@ -154,6 +154,7 @@ def main():
     IMG_DIR = "../photography/img"
 
     album_list = os.listdir(IMG_DIR)  # overwrite to select specific ones
+    album_list = ["austria"]
 
     for album in sorted(album_list):
         print(album)

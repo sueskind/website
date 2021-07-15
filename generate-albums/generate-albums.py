@@ -179,7 +179,7 @@ def convert_album(album_name, source, target, config):
     }
 
     if os.path.exists(config):
-        with open(config, "r") as f:
+        with open(config, "r", encoding="utf-8") as f:
             previous_configuration = json.load(f)
 
         # merge configurations, previous has precedence
@@ -188,8 +188,8 @@ def convert_album(album_name, source, target, config):
         for k, v in previous_configuration["descriptions"].items():
             configuration["descriptions"][k] = v
 
-        with open(config, "w") as f:
-            json.dump(configuration, f, indent=4, sort_keys=True)
+        with open(config, "w", encoding="utf-8") as f:
+            json.dump(configuration, f, indent=4, sort_keys=True, ensure_ascii=False)
 
     descriptions = configuration["descriptions"]
     background_file, background_y = configuration["background"]["file"], configuration["background"]["y"]
@@ -236,7 +236,7 @@ def main():
                                      target=join(IMG_DIR, album),
                                      config=join(IMG_DIR, album, CFG_FILENAME))
 
-        with open(join(HTML_DIR, FILENAME_FTM_HTML_OUTPUT.format(album)), "w") as f:
+        with open(join(HTML_DIR, FILENAME_FTM_HTML_OUTPUT.format(album)), "w", encoding="utf-8") as f:
             f.write(HTML_TEMPLATE.format(album.capitalize(), album, album, album.capitalize(), html_content))
 
 

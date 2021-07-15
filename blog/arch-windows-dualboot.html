@@ -260,7 +260,7 @@ hwclock --systohc</code></pre>
         <pre class="code-shadow"><code>title    Arch Linux
 linux    /vmlinuz-linux
 initrd   /initramfs-linux.img
-options  cryptdevice=/dev/nvme0n1p5:main root=/dev/mapper/main-root lang=rn locale=en_US.UTF-8</code></pre>
+options  cryptdevice=/dev/nvme0n1p5:main root=/dev/mapper/main-root lang=en locale=en_US.UTF-8</code></pre>
 
         <p>
             In <code class="code-shadow">/boot/loader/entries/arch-uefi-fallback.conf</code> (adjust your partition and
@@ -270,7 +270,7 @@ options  cryptdevice=/dev/nvme0n1p5:main root=/dev/mapper/main-root lang=rn loca
         <pre class="code-shadow"><code>title    Arch Linux Fallback
 linux    /vmlinuz-linux
 initrd   /initramfs-linux-fallback.img
-options  cryptdevice=/dev/nvme0n1p5:main root=/dev/mapper/main-root lang=rn locale=en_US.UTF-8</code></pre>
+options  cryptdevice=/dev/nvme0n1p5:main root=/dev/mapper/main-root lang=en locale=en_US.UTF-8</code></pre>
 
         <p>
             Then we set the first one as the default entry which is automatically confirmed after 5 seconds.

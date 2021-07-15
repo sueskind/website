@@ -19,8 +19,6 @@ QUALITY_THUMB = 80
 
 IN_DIR = "original"
 CFG_FILENAME = "config.json"
-HTML_TEMPLATE_FILENAME = "template.html"
-TEMPLATE_CONTENT_MARKER = "!!!CONTENT!!!"
 
 OUT_DIR_FULL = "fullsize"
 OUT_DIR_THUMBS = "thumbs"
@@ -33,6 +31,57 @@ FILENAME_FTM_HTML_OUTPUT = "{}.html"
 
 WATERMARK = "© Jonas Süskind"
 font = ImageFont.truetype("OpenSans-Regular.ttf", 80)
+
+# album_cap, album, album, album_cap, images
+HTML_TEMPLATE = """<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Jonas Süskind">
+
+    <title>{} - Photography - Jonas Süskind</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="../img/icons/favicon.png">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/content-page.css">
+
+    <style>
+        .title {
+            background: url("./img/{}/{}-bg.jpg") no-repeat fixed center 0;
+        }
+
+        .accent {
+            color: #4a9904;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a href="../index.html">{ <span class="accent">J</span> }</a></li>
+            <li>{<a href="../about-me.html">ab<span class="accent">o</span>ut_me</a>}</li>
+            <li>{<a href="../coding.html">codi<span class="accent">n</span>g</a>}</li>
+            <li>{<a href="../photography.html">photogr<span class="accent">a</span>phy</a>}</li>
+            <li>{<a href="../generative-design.html">generative_de<span class="accent">s</span>ign</a>}</li>
+            <li>{<a href="../blog.html">blog</a>}</li>
+        </ul>
+    </nav>
+</header>
+<div class="title">
+    <h1>{}</h1>
+</div>
+<div class="content">
+    <div class="album">
+
+{}
+
+    </div>
+</div>
+
+</body>
+</html>"""
 
 # album, full_name, album, thumb_name, description
 HMTL_FMT = """
@@ -182,11 +231,8 @@ def main():
                                      target=join(IMG_DIR, album),
                                      config=join(IMG_DIR, album, CFG_FILENAME))
 
-        with open(join(IMG_DIR, album, HTML_TEMPLATE_FILENAME), "r") as f:
-            template = f.read()
-
         with open(join(HTML_DIR, FILENAME_FTM_HTML_OUTPUT.format(album)), "w") as f:
-            f.write(template.replace(TEMPLATE_CONTENT_MARKER, html_content))
+            f.write(HTML_TEMPLATE.format(album.capitalize(), album, album, album.capitalize(), html_content))
 
 
 if __name__ == '__main__':

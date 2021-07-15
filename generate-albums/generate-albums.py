@@ -119,8 +119,26 @@ def convert_parallel_job(i, source, target, f, album_name, thumbnail_file, backg
 
 
 def convert_album(album_name, source, target, config):
-    with open(config, "r") as f:
-        configuration = json.load(f)
+    files = {f: "" for f in os.listdir(source)}
+    configuration = {
+        "descriptions": files,
+        "background": {
+            "file": list(files.keys())[0],
+            "y": 0.0
+        },
+        "thumbnail": list(files.keys())[0]
+    }
+
+    if os.path.exists(config):
+        with open(config, "r") as f:
+            previous_configuration = json.load(f)
+
+        # merge configurations, previous has precedence
+        configuration["background"] = previous_configuration["background"]
+        configuration["thumbnail"] = previous_configuration["thumbnail"]
+        for k, v in previous_configuration["descriptions"].items():
+            configuration["descriptions"][k] = v
+
     descriptions = configuration["descriptions"]
     background_file, background_y = configuration["background"]["file"], configuration["background"]["y"]
     thumbnail_file = configuration["thumbnail"]

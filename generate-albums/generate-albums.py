@@ -226,7 +226,7 @@ def main():
     album_list = os.listdir(IMG_DIR)  # overwrite to select specific ones
 
     for album in sorted(album_list):
-        if not os.path.isdir(album):
+        if not os.path.isdir(join(IMG_DIR, album)):
             continue
 
         print(album)

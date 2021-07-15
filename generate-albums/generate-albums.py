@@ -224,9 +224,11 @@ def main():
     IMG_DIR = "../photography/img"
 
     album_list = os.listdir(IMG_DIR)  # overwrite to select specific ones
-    album_list = ["austria"]
 
     for album in sorted(album_list):
+        if not os.path.isdir(album):
+            continue
+
         print(album)
 
         html_content = convert_album(album_name=album,

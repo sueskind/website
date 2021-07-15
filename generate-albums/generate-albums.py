@@ -47,25 +47,25 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <link rel="stylesheet" href="../css/content-page.css">
 
     <style>
-        .title {
+        .title {{
             background: url("./img/{}/{}-bg.jpg") no-repeat fixed center 0;
-        }
+        }}
 
-        .accent {
+        .accent {{
             color: #4a9904;
-        }
+        }}
     </style>
 </head>
 <body>
 <header>
     <nav>
         <ul>
-            <li><a href="../index.html">{ <span class="accent">J</span> }</a></li>
-            <li>{<a href="../about-me.html">ab<span class="accent">o</span>ut_me</a>}</li>
-            <li>{<a href="../coding.html">codi<span class="accent">n</span>g</a>}</li>
-            <li>{<a href="../photography.html">photogr<span class="accent">a</span>phy</a>}</li>
-            <li>{<a href="../generative-design.html">generative_de<span class="accent">s</span>ign</a>}</li>
-            <li>{<a href="../blog.html">blog</a>}</li>
+            <li><a href="../index.html">{{ <span class="accent">J</span> }}</a></li>
+            <li>{{<a href="../about-me.html">ab<span class="accent">o</span>ut_me</a>}}</li>
+            <li>{{<a href="../coding.html">codi<span class="accent">n</span>g</a>}}</li>
+            <li>{{<a href="../photography.html">photogr<span class="accent">a</span>phy</a>}}</li>
+            <li>{{<a href="../generative-design.html">generative_de<span class="accent">s</span>ign</a>}}</li>
+            <li>{{<a href="../blog.html">blog</a>}}</li>
         </ul>
     </nav>
 </header>

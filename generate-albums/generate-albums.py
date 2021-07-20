@@ -224,6 +224,7 @@ def main():
     IMG_DIR = "../photography/img"
 
     album_list = os.listdir(IMG_DIR)  # overwrite to select specific ones
+    album_list = ["switzerland"]
 
     for album in sorted(album_list):
         if not os.path.isdir(join(IMG_DIR, album)):

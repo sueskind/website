@@ -61,6 +61,9 @@
             <button class="button" onclick="paths();hljs.highlightBlock(document.getElementById('code'));">
                 Paths
             </button>
+            <button class="button" onclick="clock();hljs.highlightBlock(document.getElementById('code'));">
+                Clock
+            </button>
             <button class="button" onclick="" disabled>
                 More coming!
             </button>
@@ -191,6 +194,12 @@
             "\n" +
             "points = shuffle(points);\n" +
             "</code></pre>";
+    }
+
+    function clock() {
+        document.getElementById('sketchframe').src = './generative-design_sketches/clock.html';
+        document.getElementById('title').innerHTML = 'Clock';
+        document.getElementById('description').innerHTML = "";
     }
 </script>
 </body>

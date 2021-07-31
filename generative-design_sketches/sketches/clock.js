@@ -15,19 +15,19 @@ function setup() {
     textFont(numberFont);
     textSize(32);
     textAlign(CENTER, CENTER);
-    frameRate(1);
+    frameRate(10);
 }
 
 function draw() {
     translate(width / 2, height / 2);
     background(230);
 
-    stripe(-(spaceSmall * 1.5 + barWidth * 3 + spaceBig), 3, frameCount % 3);
-    stripe(-(spaceSmall / 2 + barWidth * 2 + spaceBig), 10, frameCount % 10);
-    stripe(-(spaceSmall / 2 + barWidth), 6, frameCount % 6);
-    stripe(spaceSmall / 2, 10, frameCount % 10);
-    stripe(spaceSmall / 2 + barWidth + spaceBig, 6, frameCount % 6);
-    stripe(spaceSmall * 1.5 + barWidth * 2 + spaceBig, 10, frameCount % 10);
+    stripe(-(spaceSmall * 1.5 + barWidth * 3 + spaceBig), 3, Math.floor(hour() / 10));
+    stripe(-(spaceSmall / 2 + barWidth * 2 + spaceBig), 10, hour() % 10);
+    stripe(-(spaceSmall / 2 + barWidth), 6, Math.floor(minute() / 10));
+    stripe(spaceSmall / 2, 10, minute() % 10);
+    stripe(spaceSmall / 2 + barWidth + spaceBig, 6, Math.floor(second() / 10));
+    stripe(spaceSmall * 1.5 + barWidth * 2 + spaceBig, 10, second() % 10);
 
     fill(0, 0, 0, 0);
     strokeWeight(3);

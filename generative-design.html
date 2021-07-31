@@ -199,7 +199,11 @@
     function clock() {
         document.getElementById('sketchframe').src = './generative-design_sketches/clock.html';
         document.getElementById('title').innerHTML = 'Clock';
-        document.getElementById('description').innerHTML = "";
+        document.getElementById('description').innerHTML =
+            "<p></p>\n" +
+            "<p></p>\n" +
+            "<pre><code id='code' class='javascript'>\n" +
+            "</code></pre>";
     }
 </script>
 </body>

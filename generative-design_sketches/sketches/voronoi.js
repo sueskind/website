@@ -2,10 +2,11 @@ let positions;
 let velocities;
 let forces;
 
-let count = 100;
+let count = 400;
 let pointSize = 7;
 
-let g = 1;
+let g = 10;
+let d = 0.95;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -15,7 +16,7 @@ function setup() {
     velocities = [];
     forces = [];
     for (let i = 0; i < count; i++) {
-        positions.push(createVector(random(0, width), random(0, height)));
+        positions.push(createVector(random(10, width - 10), random(10, height - 10)));
         velocities.push(createVector(0, 0));
         forces.push(createVector(0, 0));
     }
@@ -31,7 +32,7 @@ function draw() {
         for (let j = 0; j < count; j++) {
             if (i !== j) {
                 temp = p5.Vector.sub(positions[i], positions[j]);
-                temp.div(temp.magSq());
+                temp.div(temp.mag() ** 3);
                 forces[i].add(temp);
             }
         }
@@ -61,6 +62,7 @@ function draw() {
 
 
         forces[i].mult(g);
+        forces[i].limit(g);
     }
 
     let next;

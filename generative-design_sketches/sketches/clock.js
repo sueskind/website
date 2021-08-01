@@ -2,6 +2,12 @@ let spaceSmall = 10;
 let spaceBig = 30;
 let barWidth = 50;
 let circleRadius = 25;
+let borderRadius = 20;
+
+let majorFontSize = 36;
+let fontSize = 28;
+
+let backgroundColor = 230;
 
 let numberFont;
 
@@ -13,14 +19,14 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
     stroke(0);
     textFont(numberFont);
-    textSize(32);
+    textSize(fontSize);
     textAlign(CENTER, CENTER);
-    frameRate(10);
+    frameRate(30);
 }
 
 function draw() {
     translate(width / 2, height / 2);
-    background(230);
+    background(backgroundColor);
 
     stripe(-(spaceSmall * 1.5 + barWidth * 3 + spaceBig), 3, Math.floor(hour() / 10));
     stripe(-(spaceSmall / 2 + barWidth * 2 + spaceBig), 10, hour() % 10);
@@ -45,15 +51,21 @@ function stripe(x, length, num) {
 
     translate(x, -6);
 
-    translate(0, -(num % length) * 50);
-    fill(230);
+    translate(0, -(num % length) * barWidth);
+    fill(backgroundColor);
     strokeWeight(4);
-    rect(0, 0, 50, 50 * length + 15);
+    rect(0, 0, barWidth, barWidth * length + 15, borderRadius);
 
     fill(0);
     strokeWeight(1);
     for (let i = 0; i < length; i++) {
-        text(i, 25, i * 50 + 25);
+        if (i === num) {
+            textSize(majorFontSize);
+        }
+        text(i, barWidth / 2, (i + 0.5) * barWidth);
+        if (i === num) {
+            textSize(fontSize);
+        }
     }
 
     pop();

@@ -36,11 +36,45 @@ function draw() {
             }
         }
 
+        x = positions[i].x;
+        y = positions[i].y;
+
+        // left
+        temp = p5.Vector.sub(positions[i], createVector(0, y));
+        temp.div(temp.mag() ** 3);
+        forces[i].add(temp);
+
+        // right
+        temp = p5.Vector.sub(positions[i], createVector(width, y));
+        temp.div(temp.mag() ** 3);
+        forces[i].add(temp);
+
+        // top
+        temp = p5.Vector.sub(positions[i], createVector(x, 0));
+        temp.div(temp.mag() ** 3);
+        forces[i].add(temp);
+
+        // bottom
+        temp = p5.Vector.sub(positions[i], createVector(x, height));
+        temp.div(temp.mag() ** 3);
+        forces[i].add(temp);
+
+
         forces[i].mult(g);
     }
 
+    let next;
     for (let i = 0; i < count; i++) {
         velocities[i].add(forces[i]);
+        velocities[i].setMag(d * velocities[i].mag())
+
+        next = p5.Vector.add(positions[i], velocities[i]);
+        if (next.x <= 0 || next.x >= width) {
+            velocities[i].mult(createVector(-1, 1));
+        }
+        if (next.y <= 0 || next.y >= height) {
+            velocities[i].mult(createVector(1, -1));
+        }
         positions[i].add(velocities[i]);
     }
 

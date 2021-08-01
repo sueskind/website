@@ -2,11 +2,13 @@ let positions;
 let velocities;
 let forces;
 
-let count = 400;
+let count = 300;
 let pointSize = 7;
 
-let g = 10;
-let d = 0.95;
+let g = 500;
+let d = 0.90;
+let distanceLimit = 10;
+let mouseFactor = 10;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -25,15 +27,13 @@ function setup() {
 function draw() {
     background(255);
 
-    let temp, x, y;
+    let x, y;
     for (let i = 0; i < count; i++) {
         forces[i] = createVector(0, 0);
 
         for (let j = 0; j < count; j++) {
             if (i !== j) {
-                temp = p5.Vector.sub(positions[i], positions[j]);
-                temp.div(temp.mag() ** 3);
-                forces[i].add(temp);
+                forces[i].add(calcForce(positions[i], positions[j], 1, distanceLimit));
             }
         }
 
@@ -41,25 +41,20 @@ function draw() {
         y = positions[i].y;
 
         // left
-        temp = p5.Vector.sub(positions[i], createVector(0, y));
-        temp.div(temp.mag() ** 3);
-        forces[i].add(temp);
+        forces[i].add(calcForce(positions[i], createVector(0, y), 1, distanceLimit));
 
         // right
-        temp = p5.Vector.sub(positions[i], createVector(width, y));
-        temp.div(temp.mag() ** 3);
-        forces[i].add(temp);
+        forces[i].add(calcForce(positions[i], createVector(width, y), 1, distanceLimit));
 
         // top
-        temp = p5.Vector.sub(positions[i], createVector(x, 0));
-        temp.div(temp.mag() ** 3);
-        forces[i].add(temp);
+        forces[i].add(calcForce(positions[i], createVector(x, 0), 1, distanceLimit));
 
         // bottom
-        temp = p5.Vector.sub(positions[i], createVector(x, height));
-        temp.div(temp.mag() ** 3);
-        forces[i].add(temp);
+        forces[i].add(calcForce(positions[i], createVector(x, height), 1, distanceLimit));
 
+        if (mouseIsPressed) {
+            forces[i].add(calcForce(positions[i], createVector(mouseX, mouseY), mouseFactor, distanceLimit));
+        }
 
         forces[i].mult(g);
         forces[i].limit(g);
@@ -85,4 +80,14 @@ function draw() {
     for (let i = 0; i < count; i++) {
         circle(positions[i].x, positions[i].y, pointSize);
     }
+}
+
+function calcForce(thisPosition, otherPosition, factor, minLimit) {
+    let temp = p5.Vector.sub(thisPosition, otherPosition);
+    if (temp.mag() < minLimit) {
+        temp.setMag(minLimit);
+    }
+    temp.div(temp.mag() ** 3);
+    temp.mult(factor);
+    return temp;
 }

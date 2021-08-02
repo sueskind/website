@@ -2,22 +2,40 @@ let positions;
 let velocities;
 let forces;
 
-let count = 300;
+let maxCount = 300;
+let distanceLimit = 10;
 let pointSize = 7;
 
-let g = 500;
-let d = 0.90;
-let distanceLimit = 10;
-let mouseFactor = 10;
+let sliderCount;
+let sliderG;
+let sliderD;
+let sliderMouseFactor;
+
+let count;
+let g;
+let d;
+let mouseFactor;
+
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
     frameRate(60);
 
+    textSize(15);
+    textAlign(LEFT, CENTER);
+    sliderCount = createSlider(30, maxCount, maxCount / 2);
+    sliderCount.position(20, 20);
+    sliderG = createSlider(1, 500, 300);
+    sliderG.position(20, 50);
+    sliderD = createSlider(500, 999, 900);
+    sliderD.position(20, 80);
+    sliderMouseFactor = createSlider(3, 100, 10);
+    sliderMouseFactor.position(20, 110);
+
     positions = [];
     velocities = [];
     forces = [];
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < maxCount; i++) {
         positions.push(createVector(random(10, width - 10), random(10, height - 10)));
         velocities.push(createVector(0, 0));
         forces.push(createVector(0, 0));
@@ -26,6 +44,16 @@ function setup() {
 
 function draw() {
     background(255);
+
+    text("Count", 190, 30);
+    text("Repel", 190, 60);
+    text("Dampen", 190, 90);
+    text("Mouse", 190, 120);
+
+    count = sliderCount.value();
+    g = sliderG.value();
+    d = sliderD.value() / 1000;
+    mouseFactor = sliderMouseFactor.value();
 
     let x, y;
     for (let i = 0; i < count; i++) {

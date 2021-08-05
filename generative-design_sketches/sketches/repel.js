@@ -2,7 +2,6 @@ let positions;
 let velocities;
 let forces;
 
-let maxCount = 300;
 let distanceLimit = 10;
 let pointSize = 7;
 
@@ -10,6 +9,15 @@ let sliderCount;
 let sliderG;
 let sliderD;
 let sliderMouseFactor;
+
+let countMin = 30;
+let countMax = 300
+let gMin = 1;
+let gMAx = 500;
+let dMin = 0.999;
+let dMax = 0.5;
+let mouseFactorMin = 3;
+let mouseFactorMax = 100;
 
 let count;
 let g;
@@ -23,19 +31,20 @@ function setup() {
 
     textSize(15);
     textAlign(LEFT, CENTER);
-    sliderCount = createSlider(30, maxCount, maxCount / 2);
+
+    sliderCount = createSlider(0, 100, 50);
     sliderCount.position(20, 20);
-    sliderG = createSlider(1, 500, 300);
+    sliderG = createSlider(0, 100, 50);
     sliderG.position(20, 50);
-    sliderD = createSlider(500, 999, 900);
+    sliderD = createSlider(0, 100, 50);
     sliderD.position(20, 80);
-    sliderMouseFactor = createSlider(3, 100, 10);
+    sliderMouseFactor = createSlider(0, 100, 50);
     sliderMouseFactor.position(20, 110);
 
     positions = [];
     velocities = [];
     forces = [];
-    for (let i = 0; i < maxCount; i++) {
+    for (let i = 0; i < countMax; i++) {
         positions.push(createVector(random(10, width - 10), random(10, height - 10)));
         velocities.push(createVector(0, 0));
         forces.push(createVector(0, 0));
@@ -50,10 +59,10 @@ function draw() {
     text("Dampen", 190, 90);
     text("Mouse", 190, 120);
 
-    count = sliderCount.value();
-    g = sliderG.value();
-    d = sliderD.value() / 1000;
-    mouseFactor = sliderMouseFactor.value();
+    count = logMap(sliderCount.value(), 0, 100, countMin, countMax);
+    g = logMap(sliderG.value(), 0, 100, gMin, gMAx);
+    d = logMap(sliderD.value(), 0, 100, dMin, dMax);
+    mouseFactor = logMap(sliderMouseFactor.value(), 0, 100, mouseFactorMin, mouseFactorMax);
 
     let x, y;
     for (let i = 0; i < count; i++) {
@@ -118,4 +127,8 @@ function calcForce(thisPosition, otherPosition, factor, minLimit) {
     temp.div(temp.mag() ** 3);
     temp.mult(factor);
     return temp;
+}
+
+function logMap(value, minIn, maxIn, minOut, maxOut) {
+    return Math.exp(map(value, minIn, maxIn, Math.log(minOut), Math.log(maxOut)));
 }

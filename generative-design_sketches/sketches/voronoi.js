@@ -2,13 +2,16 @@ let positions;
 let velocities;
 let forces;
 
-let count = 300;
+let count = 0;
 let pointSize = 7;
 
 let g = 500;
 let d = 0.90;
 let distanceLimit = 10;
 let mouseFactor = 10;
+
+let lastFrame = 0;
+let cooldown = 5;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -17,15 +20,18 @@ function setup() {
     positions = [];
     velocities = [];
     forces = [];
-    for (let i = 0; i < count; i++) {
-        positions.push(createVector(random(10, width - 10), random(10, height - 10)));
-        velocities.push(createVector(0, 0));
-        forces.push(createVector(0, 0));
-    }
 }
 
 function draw() {
     background(255);
+
+    if (mouseIsPressed && lastFrame + cooldown < frameCount) {
+        positions.push(createVector(mouseX + random(-3, 3), mouseY + random(-3, 3)));
+        velocities.push(createVector(0, 0));
+        forces.push(createVector(0, 0));
+        count += 1;
+        lastFrame = frameCount;
+    }
 
     let x, y;
     for (let i = 0; i < count; i++) {
@@ -51,10 +57,6 @@ function draw() {
 
         // bottom
         forces[i].add(calcForce(positions[i], createVector(x, height), 1, distanceLimit));
-
-        if (mouseIsPressed) {
-            forces[i].add(calcForce(positions[i], createVector(mouseX, mouseY), mouseFactor, distanceLimit));
-        }
 
         forces[i].mult(g);
         forces[i].limit(g);

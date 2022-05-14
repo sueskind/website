@@ -1,4 +1,4 @@
-#!/usr/bin/python3.9
+#!/usr/bin/python
 
 import json
 import os
@@ -7,6 +7,7 @@ import random
 from multiprocessing import Pool
 
 from PIL import Image, ImageOps, ImageFont, ImageDraw
+from PIL.Image import Resampling
 
 SHUFFLE_SEED = 1
 
@@ -65,7 +66,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <li>{{<a href="../coding.html">codi<span class="accent">n</span>g</a>}}</li>
             <li>{{<a href="../photography.html">photogr<span class="accent">a</span>phy</a>}}</li>
             <li>{{<a href="../generative-design.html">generative_de<span class="accent">s</span>ign</a>}}</li>
-            <li>{{<a href="../blog.html">blog</a>}}</li>
         </ul>
     </nav>
 </header>
@@ -110,7 +110,7 @@ def convert_parallel_job(i, source, target, f, album_name, thumbnail_file, backg
         factor = RESOLUTION_FULL / width
     else:
         factor = RESOLUTION_FULL / height
-    img = img.resize((int(width * factor), int(height * factor)), Image.LANCZOS)
+    img = img.resize((int(width * factor), int(height * factor)), Image.Resampling.LANCZOS)
 
     # add watermark
     text_img = Image.new("RGBA", img.size, (255, 255, 255, 0))
@@ -131,7 +131,7 @@ def convert_parallel_job(i, source, target, f, album_name, thumbnail_file, backg
         factor = width_goal / width
     else:  # if image is more stretched horizontally than goal
         factor = height_goal / height
-    img = img.resize((int(width * factor), int(height * factor)), Image.LANCZOS)
+    img = img.resize((int(width * factor), int(height * factor)), Resampling.LANCZOS)
 
     # center crop
     width, height = img.size
@@ -224,7 +224,7 @@ def main():
     IMG_DIR = "../photography/img"
 
     album_list = os.listdir(IMG_DIR)  # overwrite to select specific ones
-    album_list = ["switzerland"]
+    # album_list = ["switzerland"]
 
     for album in sorted(album_list):
         if not os.path.isdir(join(IMG_DIR, album)):
